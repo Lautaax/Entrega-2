@@ -17,14 +17,14 @@ router.get("/", async (req, res) => {
             sort = null,
         } = req.query;
         console.log(category, available);
-        let consulta = await productdbManager.getProducts(
+        let consulta = await productdbManager.getProducts()(
             page,
             limit,
             category,
             available,
             sort
         );
-        return res.send({ status: "Exito", payload: JSON.stringify({ consulta }, ) });
+        return res.send(consulta);
     } catch (error) {
         console.log(error);
     }

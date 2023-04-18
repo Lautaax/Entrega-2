@@ -21,7 +21,7 @@ socket.on("products", (products) => {
      
         listProducts += `<br>`+`-`+`The product ${prod.title} with the code ${prod.code} with a description ${prod.description} and the price of that product is ${prod.price}`;
     });
-    list.innerHTML = `${listProducts}`
+    list.innerHTML = `${Products}`
 
     products.thumbnails.forEach((imag)=>{
         const imgElem=document.createElement("img");
