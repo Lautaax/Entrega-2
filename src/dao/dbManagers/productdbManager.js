@@ -1,8 +1,8 @@
 import { productModel } from "../models/product.model.js";
 
 export default class productdbManager {
-  constructor() { }
-  getAll = async()=>{
+  constructor() {}
+  getAll = async () => {
     try {
       const prod=await productModel.find();
       return prod
@@ -50,19 +50,21 @@ export default class productdbManager {
 
   updateProduct = async (product, pid) => {
     try {
-      const productUpdated = await productModel.updateOne({ _id: pid }, product)
+      const productUpdated = await productModel.updateOne(
+        { _id: pid },
+        product
+      );
       return productUpdated;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   deleteProduct = async (pid) => {
     try {
       const productDeleted = await productModel.deleteOne({ _id: pid });
-      return productDeleted
+      return productDeleted;
     } catch (error) {
-      console.log(productDeleted)
+      console.log(productDeleted);
     }
-
-  }
+  };
 }
