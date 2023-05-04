@@ -11,8 +11,6 @@ const productdbManager = new ProductdbManager();
 router.get("/", async (req, res) => {
     try {
         const { limit = 10, page = 1, category = null, available = null, sort = null } = req.query
-
-
         console.log(category, available)
         let consulta = await productdbManager.getProducts(page, limit, category, available, sort);
 
