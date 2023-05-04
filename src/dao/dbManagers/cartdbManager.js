@@ -1,7 +1,7 @@
-import { cartModel } from "../models/cart.model.js";
-import { productModel } from "../models/product.model.js";
+import { cartModel } from "../models/cart.model.js"
+import { productModel } from "../models/product.model.js"
 export default class cartdbManager {
-  constructor() {}
+  constructor() { }
   getCarts = async () => {
     try {
       const carts = await cartModel.find();
@@ -12,7 +12,7 @@ export default class cartdbManager {
   };
   getCartsbyId = async (cid) => {
     try {
-      const productByid = await cartModel.findOne({ _id: cid });
+      const productByid = await cartModel.findOne({ _id: cid }).lean();
       return productByid;
     } catch (error) {
       console.log(error);
@@ -50,6 +50,7 @@ export default class cartdbManager {
           const updatedCartWithProduct = await cartModel.findOne({ _id: cid });
           return updatedCartWithProduct;
         }
+
       } else {
         const productAddToCart = {
           productId: pid,
@@ -62,21 +63,19 @@ export default class cartdbManager {
         const updatedCartWithProduct = await cartModel.findOne({ _id: cid });
         return updatedCartWithProduct;
       }
+
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
   updateCart = async (cid, cart) => {
     try {
-      const cartUpdated = await cartModel.updateOne(
-        { _id: cid },
-        { products: cart }
-      );
-      return cartUpdated;
+      const cartUpdated = await cartModel.updateOne({ _id: cid }, { products: cart })
+      return cartUpdated
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
   updateProductFromCart = async (cid, pid, quantity) => {
     try {
       let updatedCartProduct;
@@ -85,11 +84,10 @@ export default class cartdbManager {
           { _id: cid, "products.productId": pid },
           { "products.$.quantity": 1 }
         );
-      } else {
+      }else{
         updatedCartProduct = await cartModel.updateOne(
           { _id: cid, "products.productId": pid },
-          { "products.$.quantity": quantity }
-        );
+          { "products.$.quantity": quantity })
       }
 
       return updatedCartProduct;
@@ -99,25 +97,25 @@ export default class cartdbManager {
   };
   deleteCart = async (cid) => {
     try {
-      const cart = await cartModel.findOne({ _id: cid });
+      const cart = await cartModel.findOne({ _id: cid })
       console.log(cart.products);
-      const cartDeleted = await cartModel.updateOne(
-        { _id: cid },
-        { products: [] }
-      );
-      return cartDeleted;
+      const cartDeleted = await cartModel.updateOne({ _id: cid }, { products: [] });
+      return cartDeleted
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
   deleteproductfromCart = async (cid, pid) => {
     try {
+
       const productEliminated = await cartModel.updateOne(
         { _id: cid },
         { $pull: { products: { productId: pid } } }
       );
 
       return productEliminated;
-    } catch (error) {}
-  };
+    } catch (error) {
+
+    }
+  }
 }

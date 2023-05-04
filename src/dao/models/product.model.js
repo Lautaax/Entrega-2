@@ -32,9 +32,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  image:{
-    
-  }
+  thumbnails: Array
 });
 productSchema.plugin(mongoosePaginate);
 let productModel = mongoose.model(productCollection, productSchema);

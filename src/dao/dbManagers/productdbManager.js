@@ -17,17 +17,23 @@ export default class productdbManager {
       usable ? (query.status = usable.toLowerCase()) : null;
       Number.parseInt(sort) === 1 ? (sort = { price: 1 }) : null;
       Number.parseInt(sort) === -1 ? (sort = { price: -1 }) : null;
-      const products = await productModel.paginate(query, {limit,page,sort});
+      const products = await productModel.paginate(query, {limit,page, lean: true,sort});
+      products.hasPrevPage
+      ? (products.prevLink = `/products?page=${products.prevPage}`)
+      : (products.prevLink = null);
+    products.hasNextPage
+      ? (products.nextLink = `/products?page=${products.nextPage}`)
+      : (products.nextLink = null);
+
       return products;
     } catch (error) {
       console.log(error);
     }
   };
-  
   getProductsbyId = async (pid) => {
     try {
-      const productByid = await productModel.findOne({_id:pid});
-      return productByid;
+      const productId = await productModel.findOne({_id:pid}).lean();
+      return productId;
     } catch (error) {
       console.log(error);
     }

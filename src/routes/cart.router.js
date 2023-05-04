@@ -11,7 +11,7 @@ const cartdbmanager = new CartdbManager();
 router.get("/", async (req, res) => {
     try {
         const consulta = await cartdbmanager.getCarts();
-        return res.send({ status: "Exito", payload: consulta });
+        return res.send({ status: "Success", payload: consulta });
     } catch (error) {
         console.log(error)
     }
@@ -26,8 +26,14 @@ router.post("/", async (req, res) => {
                 .status(400)
                 .send({ status: "error", error: "Cart already exists" });
         }
-        return res.send({ status: "Exito", payload: createCart });
-
+        return res.send({ status: "success", payload: createCart });
+        // await cartmanager.createCart();
+        // return res.status(201).send({
+        //     status: "success",
+        //     message: {
+        //         success: "Cart created",
+        //     },
+        // });
     } catch (error) {
         console.log(error)
     }
@@ -37,13 +43,24 @@ router.get("/:cid", async (req, res) => {
     try {
         const { cid } = req.params
         const findcart = await cartdbmanager.getCartsbyId(cid);
-
+        console.log(cid)
         if (!findcart) {
             return res
                 .status(400)
                 .send({ status: "error", error: "The cart does not exists" });
         }
         return res.send({ status: "success", payload: findcart });
+        // if (typeof(cart)==="string") {
+        //     return res.status(404).send({
+        //         status: "error",
+        //         message: { error:cart},
+        //     });
+        // }
+
+        // return res.status(200).send({
+        //     status: "success",
+        //     message: { cart: cart },
+        // });
     } catch (error) {
         console.log(error)
     }
