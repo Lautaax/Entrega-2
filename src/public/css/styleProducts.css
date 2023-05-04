@@ -1,9 +1,11 @@
 
 body{
-    background-color: bisque;
+    background-color: rgba(11, 130, 234, 0.517);
 }
 
+.colornav { background-color: blueviolet; }
 
+.colorletra { color: black;}
 
 body {
   margin: 0;
@@ -15,7 +17,7 @@ body {
 }
 /*product.handlebars*/
 #productId{
-    color: blue;
+    color: rgb(34, 255, 0);
     font-weight: bold;
 }
 #login {
