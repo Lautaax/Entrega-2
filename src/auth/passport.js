@@ -4,25 +4,37 @@ import userModel from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
 import config from "../config.js";
+import { cartModel } from "../dao/models/cart.model.js";
 
 
 const { clientID, clientSecret, callbackUrl } = config
 const LocalStrategy = local.Strategy
 const initializePassport = () => {
-    passport.use("register", new LocalStrategy({ passReqToCallback: true, usernameField: "email" }, async (req, username, password, done) => {
-
+    passport.use("register", new LocalStrategy({ 
+        passReqToCallback: true, 
+        usernameField: "email" },
+        async (req, username, password, done) => {
         try {
-            const { first_name, last_name, email, age } = req.body;
+            const { first_name, last_name, email, role,age } = req.body;
             let user = await userModel.findOne({ email: username });
             if (user) {
                 return done(null, false);
             }
+
+            if (userExist){
+                console.log("Usuario ya creado");
+                done (null, false);
+            }
+            const cart = await cartModel.create ({})
+
             const newUser = {
                 first_name,
                 last_name,
                 email,
                 age,
+                role: role ?? "user",
                 password: createHash(password),
+                cartId: cart._id,
             }
 
             const result = await userModel.create(newUser);
@@ -60,7 +72,9 @@ const initializePassport = () => {
         try {
             console.log(profile)
             let user = await userModel.findOne({ email: profile._json.email }).lean()
-
+            if(user.email === "lautaa_97@outlook.com"){
+                user.role = "admin"
+            }
             if (user.email === "adminCoder@coder.com") {
                 user.role = "admin"
             } else {
