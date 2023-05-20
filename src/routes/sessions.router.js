@@ -26,6 +26,9 @@ router.post("/login",async (req, res) => {
   let role=""
     if(user.email === "adminCoder@coder.com"){
     role = "admin"
+  }
+  if(user.email === "lautaroj.aguilera@gmail.com"){
+    role = "admin"
   }else{
    role = "user"
   }
@@ -59,8 +62,8 @@ router.post("/login",async (req, res) => {
   // }
   
   return res.cookie("jwtCookie",token,{httpOnly:true}).
+  
   send({status:"success",message:"Login successful"})
-
 });
 
 

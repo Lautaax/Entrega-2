@@ -35,15 +35,15 @@ router.post("/", async (req, res) => {
 
 router.get("/:cid", async (req, res) => {
     try {
-        const { cid } = req.params
-        const findcart = await cartdbmanager.getCartsbyId(cid);
+        const cartId = req.params.cid;
+        const findcart = await cartdbmanager.getCartsbyId(cartId);
         console.log(cid)
         if (!findcart) {
             return res
                 .status(400)
                 .send({ status: "error", error: "The cart does not exists" });
         }
-        return res.send({ status: "success", payload: findcart });
+        return res.send({ status: "OK", message: "Cart found", payload: findcart });
 
     } catch (error) {
         console.log(error)
