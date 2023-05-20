@@ -43,10 +43,6 @@ router.get("/:pid", async (req, res) => {
 router.post("/", uploader.array("thumbnails"), async (req, res) => {
     let product = req.body;
 
-
-
-
-
     const filesToUpdate = req.files
 
     product.thumbnails = [];

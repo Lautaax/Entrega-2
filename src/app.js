@@ -37,6 +37,7 @@ app.use(
     secret: config.sessionSecret,
   })
 );
+
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())

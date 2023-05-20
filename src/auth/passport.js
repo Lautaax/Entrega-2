@@ -5,9 +5,27 @@ import { createHash, isValidPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
 import config from "../config.js";
 
+import {cartModel}  from "../dao/models/cart.model.js";
+import jwt from "passport-jwt"  
 
-const { clientID, clientSecret, callbackUrl } = config
+const { clientID, clientSecret, callbackUrl,JWT_SECRET } = config
 const LocalStrategy = local.Strategy
+const JWTStrategy=jwt.Strategy
+const ExtractJwt=jwt.ExtractJwt
+
+
+const cookieExtractor=(req)=>{
+    let token=null;
+    if(req && req.cookies){
+        token=req.cookies["jwtCookie"]
+    }
+    return token
+}
+console.log(JWT_SECRET)
+const jwtOptions={
+    secretOrKey:JWT_SECRET,
+    jwtFromRequest:ExtractJwt.fromExtractors([cookieExtractor])
+}
 const initializePassport = () => {
     passport.use(
         "register",
@@ -44,7 +62,7 @@ const initializePassport = () => {
             }
         )
     );
-    passport.use("login", new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
+/*passport.use("login", new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
         try {
 
             const user = await userModel.findOne({ email: username }).lean();
@@ -63,7 +81,16 @@ const initializePassport = () => {
         } catch (error) {
             return done(error)
         }
-    }));
+    }));*/
+
+    passport.use("jwt",new JWTStrategy(jwtOptions, async (jwt_payload,done)=>{
+        try {
+            console.log(jwt_payload)
+            return done(null,jwt_payload)
+        } catch (error) {
+           return done(error)
+        }
+    }))
 
     passport.use("githublogin", 
     new GithubStrategy({

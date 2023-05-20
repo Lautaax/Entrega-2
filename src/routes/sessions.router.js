@@ -1,7 +1,11 @@
 import { Router } from "express";
 import userModel from "../dao/models/user.model.js";
+import UserManager from "../dao/dbManagers/userdbManager.js";
 import { createHash, isValidPassword } from "../utils.js"
+import config from "../config.js";
+import jwt from "jsonwebtoken";
 import passport from "passport";
+const userManager=new UserManager()
 
 const router = Router()
 router.post("/register", passport.authenticate("register", { failureRedirect: "/api/sessions/failRegister" }), async (req, res) => {
@@ -10,26 +14,57 @@ router.post("/register", passport.authenticate("register", { failureRedirect: "/
 router.get("/failRegister", (req, res) => {
   return res.send({ status: "status", error: "Authentication error" })
 })
-router.post("/login",passport.authenticate("login"),async (req, res) => {
-  if (!req.user)
-  return res.status(401).send({ status: "error", error: "Unauthorized" });
-  if(req.user.email === "lautaa_97@outlook.com"){
-    req.user.role = "admin"
-  }if(req.user.email === "adminCoder@coder.com"){
-    req.user.role = "admin"
+router.post("/login",async (req, res) => {
+  const {email,password}=req.body
+  const user = await userManager.getUser({email})
+  if(!user){
+    return res.status(401).send({status:"error",error:"Authentication error"})
+  }
+  if(isValidPassword(user,password)){
+  return res.status(401).send({status:"error",error:"Invalid credentials"})
+  }
+  let role=""
+    if(user.email === "adminCoder@coder.com"){
+    role = "admin"
   }else{
-    req.user.role = "user"
+   role = "user"
   }
+ 
+  const jwtUser={
+    first_name:`${user.first_name}`,
+    last_name:`${user.last_name}`,
+    email:user.email,
+    cart:user.cart,
+   role:role
+  }
+  console.log(jwtUser)
+  const token=jwt.sign(jwtUser,config.JWT_SECRET,{expiresIn: "24h"})
+  // if (!req.user)
+  // return res.status(401).send({ status: "error", error: "Unauthorized" });
 
-  req.session.user={
-    first_name:req.user.first_name,
-    last_name:req.user.last_name,
-    age:req.user.age,
-    email:req.user.email,
-    role:req.user.role
-  }
-  return res.send({status:"success",payload:req.user})
+  // if(req.user.email === "adminCoder@coder.com"){
+  //   req.user.role = "admin"
+  // }else{
+  //   req.user.role = "user"
+  // }
+
+  // req.session.user={
+  //   first_name:req.user.first_name,
+  //   last_name:req.user.last_name,
+  //   age:req.user.age,
+  //   email:req.user.email,
+  //   role:req.user.role,
+  //   password:"",
+  //   cart:req.user.cart,
+  // }
+  
+  return res.cookie("jwtCookie",token,{httpOnly:true}).
+  send({status:"success",message:"Login successful"})
+
 });
+
+
+
 router.get("/failLogin",(req,res)=>{
   res.send({status:"error",error:"Authentication error"})
 })
