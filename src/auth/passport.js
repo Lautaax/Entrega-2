@@ -62,14 +62,19 @@ const initializePassport = () => {
             }
         )
     );
-/*passport.use("login", new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
+    passport.use("login", new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
         try {
 
             const user = await userModel.findOne({ email: username }).lean();
+            console.log(user)
             if (!user) {
+                console.error("Authentication")
                 return done(null, false)
             }
-            if (!isValidPassword(user, password)) {
+            const validPassword = isValidPassword(user, password);
+            console.log(validPassword)
+            if (!validPassword) {
+                console.error("Incorrect credentials")
                 return done(null, false)
             }
         
@@ -81,16 +86,7 @@ const initializePassport = () => {
         } catch (error) {
             return done(error)
         }
-    }));*/
-
-    passport.use("jwt",new JWTStrategy(jwtOptions, async (jwt_payload,done)=>{
-        try {
-            console.log(jwt_payload)
-            return done(null,jwt_payload)
-        } catch (error) {
-           return done(error)
-        }
-    }))
+    }));
 
     passport.use("githublogin", 
     new GithubStrategy({

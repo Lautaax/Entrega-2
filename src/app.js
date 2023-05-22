@@ -13,6 +13,7 @@ import config from "./config.js";
 import sessionsRouter from "./routes/sessions.router.js"
 import passport from "passport";
 import initializePassport from "./auth/passport.js";
+import getContacts from "./routes/contacts.router.js";
 // import passport from "passport";
 // import initializePassport from "../middlewares/passport.js";
 
@@ -25,6 +26,7 @@ app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
 app.use(morgan("dev"))
+app.use("/api/contacts", getContacts);
 
 app.use(
   session({

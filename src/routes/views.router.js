@@ -1,60 +1,21 @@
-import ProductManager from "../dao/dbManagers/productdbManager.js";
-import CartdbManager from "../dao/dbManagers/cartdbManager.js";
+
+
+import { getViewProducts,getProductwithitsid , getCartwithitsId,loginView,registerView,productsInformation} from '../controllers/views.controller.js';
 import { Router } from "express";
-import passport from "passport";
-//import { checkLogged,checkLogin } from '../../middlewares/auth.js';
+import { checkLogged,checkLogin } from '../../middlewares/auth.js';
 
 const router = Router();
-const productmanager = new ProductManager();
-const cartdbManager = new CartdbManager();
-router.get(
-  "/products",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    const { limit = 2, page = 1, category, usable, sort } = req.query;
-    const {
-      docs: products,
-      hasPrevPage,
-      hasNextPage,
-      nextPage,
-      prevPage,
-    } = await productmanager.getProducts(page, limit, category, usable, sort);
-    res.render("products", {
-      user: req.session.user,
-      products,
-      page,
-      hasPrevPage,
-      hasNextPage,
-      prevPage,
-      nextPage,
-    });
-  }
-);
 
-router.get("/product/:pid", async (req, res) => {
-  const { pid } = req.params;
-  const product = await productmanager.getProductsbyId(pid);
-  res.render("product", {
-    product,
-  });
-});
-router.get("/cart/:cid", async (req, res) => {
-  const { cid } = req.params;
-  const cart = await cartdbManager.getCartsbyId(cid);
-  res.render("cart", {
-    cart,
-  });
-});
+router.get("/products",checkLogin, getViewProducts)
 
-router.get("/", (req, res) => {
-  res.render("login");
-});
+router.get("/product/:pid", checkLogin,getProductwithitsid);
 
-router.get("/register", (req, res) => {
-  res.render("register");
-});
+router.get("/cart/:cid", checkLogin,getCartwithitsId);
 
-router.get("/products", (req, res) => {
-  res.render("products", { user: req.session.user });
-});
+
+router.get("/", checkLogged,loginView);
+
+router.get("/register", registerView);
+
+router.get("/products",checkLogin, productsInformation);
 export default router;
