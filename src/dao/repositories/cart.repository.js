@@ -11,6 +11,13 @@ import { cartModel } from "../models/cart.model.js";
             console.log(error);
         }
     }
+    saveCart = async (cart) => {
+        try {
+            return await this.model.findOneAndUpdate({_id: cart._id}, { $set: cart });
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
     getCartsbyId = async (cid) => {
         try {
             return this.cartModel.findOne({ _id: cid }).lean();
@@ -27,7 +34,7 @@ import { cartModel } from "../models/cart.model.js";
     }
     updatetheCart = async (cid, cart) => {
         try {
-            return this.cartModel.updateOne(cid, cart);
+            return this.cartModel.updateOne({_id:cid}, cart);
         } catch (error) {
             console.log(error);
         }

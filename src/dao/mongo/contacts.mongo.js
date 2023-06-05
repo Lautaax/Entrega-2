@@ -1,15 +1,17 @@
-import mongoose from "mongoose";
 import { contactModel } from "./model/contact.js";
-import  config  from "../../config.js";
 
-export default class Contact{
-    constructor(){
-        mongoose.connect(config.dbUrl)
-    }
+class Contact {
+  constructor() {}
 
-    get =() =>{
-        const contacts =contactModel.find()
-        return contacts
-    }
+  getContact = async () => {
+    const contacts = await contactModel.find();
+    return contacts;
+  };
 
+  create = async (contact) => {
+    const createdContact = await contactModel.create(contact);
+    return createdContact;
+  };
 }
+
+export  const contactMongo = new Contact();

@@ -61,7 +61,7 @@ export async function addProducts(req,res){
     return res.send({ status: "success", payload: createProduct });
 
 }
-export async function updateProducts(){
+export async function updateProducts(req,res){
     try {
         // let { title, description, code, price, stock, category, thumbnails } =
         // req.body;
@@ -70,10 +70,10 @@ export async function updateProducts(){
         const { pid } = req.params;
 
 
-        const filesToUpdate = req.files 
+        // const filesToUpdate = req.files 
         
 
-        product.thumbnails = [];
+        // product.thumbnails = [];
 
         // if (req.files) thumbnails = req.files;
 
@@ -83,13 +83,13 @@ export async function updateProducts(){
         //     error: `Thumbnails could not be saved`,
         //   });
         // }
-        if (filesToUpdate) {
-            console.log(filesToUpdate)
-            filesToUpdate.forEach(files => {
-                const imgUrlUpdate = `http://localhost:8080/images/${files.filename}`;
-                product.thumbnails.push(imgUrlUpdate)
-            });
-        }
+        // if (filesToUpdate) {
+        //     console.log(filesToUpdate)
+        //     filesToUpdate.forEach(files => {
+        //         const imgUrlUpdate = `http://localhost:8080/images/${files.filename}`;
+        //         product.thumbnails.push(imgUrlUpdate)
+        //     });
+        // }
         const result = await productService.updateProduct(product, pid);
         if (!product) {
             return res.send({ status: "error", error: "Incomplete values" });

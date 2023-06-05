@@ -48,14 +48,17 @@ class ProductsRepository {
     }
     createProduct=async (product)=>{
         try {
+           
             return this.productModel.create(product)
+            
         } catch (error) {
             console.log(error)
         }
     }
-    updateProduct=async (product,pid)=>{
+    updateProduct=async (pid,product)=>{
         try {
-            return this.productModel.updateOne(pid,product)  
+            console.log(pid)
+            return this.productModel.updateOne({_id:pid},product)  
         } catch (error) {
            console.log(error) 
         }

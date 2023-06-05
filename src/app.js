@@ -5,6 +5,7 @@ import socket from './socket.js'
 import morgan from "morgan"
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import cookieParser from "cookie-parser";
 import productsRouter from './routes/products.router.js';
 import cartrouter from './routes/cart.router.js'
 import viewrouter from './routes/views.router.js'
@@ -13,7 +14,9 @@ import config from "./config.js";
 import sessionsRouter from "./routes/sessions.router.js"
 import passport from "passport";
 import initializePassport from "./auth/passport.js";
-import getContacts from "./routes/contacts.router.js";
+import smsRouter from "./routes/sms.router.js"
+import mailRouter from './routes/mail.router.js'
+
 // import passport from "passport";
 // import initializePassport from "../middlewares/passport.js";
 
@@ -26,7 +29,7 @@ app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
 app.use(morgan("dev"))
-app.use("/api/contacts", getContacts);
+
 
 app.use(
   session({
@@ -43,6 +46,7 @@ app.use(
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(cookieParser());
 
 //View engine
 app.engine("handlebars", handlebars.engine());
@@ -64,7 +68,8 @@ database.connect();
 app.use("/api/sessions", sessionsRouter);
 app.use("/", viewrouter);
 app.use("/api/products", productsRouter);
-
+app.get("/mail",mailRouter)
+app.get("/sms",smsRouter)
 app.use("/api/carts", cartrouter);
 socket.connect(httpServer)
 

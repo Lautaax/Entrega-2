@@ -54,7 +54,7 @@ class ProductsService {
             if (!existingProduct) {
                 return { error: `The product with this ID does not exists.` };
             }
-            return await this.productsRepository.updateProduct(product)
+            return await this.productsRepository.updateProduct(product,pid)
         } catch (error) {
             console.log(error)
         }

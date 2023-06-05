@@ -1,4 +1,4 @@
-import CartdbManager from "../dao/dbManagers/cartdbManager.js";
+import { ticketService } from "../dao/services/ticket.service.js";
 import { cartService } from "../dao/services/cart.service.js";
 
 export async function getCartsall(req,res){
@@ -113,4 +113,15 @@ export async function deleteproductFromthecart(req,res){
      } catch (error) {
          console.log(error)
      }
+}
+export async function purchase(req,res){
+    const { cid} = req.params
+    console.log(cid)
+    const response= await ticketService.createTickettoCart(cid)
+    if (!response) {
+        return res
+            .status(400)
+            .send({ status: "error", error: "The cart does not exists" });
+    }
+    return res.send({ status: "success", payload: response });
 }

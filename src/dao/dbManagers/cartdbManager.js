@@ -1,4 +1,4 @@
-import { cartModel } from "../models/cart.model.js"
+import {cartModel}  from "../models/cart.model.js"
 import { productModel } from "../models/product.model.js"
 export default class cartdbManager {
   constructor() { }
@@ -18,14 +18,14 @@ export default class cartdbManager {
       console.log(error);
     }
   };
-  createCart = async (cart) => {
-    try {
-      const productCreated = await cartModel.create(cart);
-      return productCreated;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // createCart = async (cart) => {
+  //   try {
+  //     const productCreated = await cartModel.create(cart);
+  //     return productCreated;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   addProducttoCart = async (cid, pid, quantity) => {
     try {
       let cartFound = await cartModel.findOne({ _id: cid });
@@ -115,7 +115,7 @@ export default class cartdbManager {
 
       return productEliminated;
     } catch (error) {
-
+      console.log(error)
     }
   }
 }
