@@ -1,5 +1,6 @@
 import { cartRepository } from "../repositories/cart.repository.js";
-
+import CustomError from "./errors/errors.service.js";
+import { CartErrorInfo } from "./errors/info.js";
 class CartService {
     constructor() {
         this.cartRepository = cartRepository;
@@ -21,6 +22,23 @@ class CartService {
     }
     addProductCart = async (cid, pid, quantity) => {
         try {
+            if (!cid || !pid || !quantity){
+                const error = CustomError.createError({
+                    name: "Add product error",
+                    cause: CartErrorInfo({
+                        cid:cid,
+                        pid:pid,
+                    },quantity),
+                  
+                    message: "Error trying to add a new product to the cart"+" "+"because"+" "+CartErrorInfo({
+                      cid:cid,
+                      pid:pid,
+                    },quantity),
+                    code: ErrorCode.MISSING_DATA_ERROR,
+          
+                  });
+                  return error.message;
+            }
             let cartFound = await this.getCartsbyId({ _id: cid });
 
             const productIdInCart = cartFound.products.findIndex((product) => {

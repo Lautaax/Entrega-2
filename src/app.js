@@ -14,6 +14,7 @@ import config from "./config.js";
 import sessionsRouter from "./routes/sessions.router.js"
 import passport from "passport";
 import initializePassport from "./auth/passport.js";
+import mockRouter from "./routes/mocking.router.js";
 import smsRouter from "./routes/sms.router.js"
 import mailRouter from './routes/mail.router.js'
 
@@ -65,6 +66,7 @@ const httpServer = app.listen(8080, () => {
 });
 database.connect();
 //app.use("/chat",chatRouter);
+app.get("/mockingproducts",mockRouter)
 app.use("/api/sessions", sessionsRouter);
 app.use("/", viewrouter);
 app.use("/api/products", productsRouter);

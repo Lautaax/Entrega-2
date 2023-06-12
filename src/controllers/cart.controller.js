@@ -34,12 +34,12 @@ export async function addProductcart(req,res){
         const pId = req.params.pid
         const { quantity } = req.body
         console.log(cId, pId)
-
+        
         let resul = await cartService.addProductCart(cId, pId, quantity);
-        if (!resul) {
+        if (!resul || typeof resul === "string") {
             return res
                 .status(400)
-                .send({ status: "error", error: "The cart does not exists" });
+                .send({ status: "error", error: resul });
         }
         return res.send({ status: "success", payload: resul });
 
