@@ -53,11 +53,16 @@ export async function addProducts(req,res){
         });
     }
     const createProduct = await productService.createProduct(product);
-    if (!createProduct) {
+    if (!createProduct || typeof createProduct === "string") {
+        console.log(createProduct)
         return res
             .status(400)
-            .send({ status: "error", error: "Product already exists" });
+            .send({ status: "error", error: createProduct });
+    }else{
+        console.log("pasa")
+     console.log(createProduct)   
     }
+    
     return res.send({ status: "success", payload: createProduct });
 
 }

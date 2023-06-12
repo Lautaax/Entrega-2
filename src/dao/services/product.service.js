@@ -1,4 +1,7 @@
 import { productsRepository } from "../repositories/product.repository.js";
+import ErrorCode from "./errors/enum.errors.js";
+import CustomError from "./errors/errors.service.js";
+import { addProductErrorInfo } from "./errors/info.js";
 class ProductsService {
     constructor() {
         this.productsRepository = productsRepository
@@ -25,19 +28,34 @@ class ProductsService {
         }
     }
     createProduct = async (product) => {
+        
         try {
-            if (
-                !product.title ||
-                !product.description ||
-                product.price === undefined ||
-                product.status === undefined ||
-                !product.code ||
-                product.stock === undefined ||
-                !product.category
-            ) {
-                return { error: `All the fields are required` };
-            }
 
+            if (!product.title || !product.description || !product.code || !product.price || !product.stock || !product.category) {
+                const error = CustomError.createError({
+                  name: "Add product error",
+                  cause: addProductErrorInfo({
+                    title:product.title,
+                    description:product.description,
+                    code:product.code,
+                    price:product.price,
+                    stock:product.stock,
+                    category:product.category,
+                  }),
+                
+                  message: "Error trying to create new product"+" "+"because"+" "+addProductErrorInfo({
+                    title:product.title,
+                    description:product.description,
+                    code:product.code,
+                    price:product.price,
+                    stock:product.stock,
+                    category:product.category,
+                  }),
+                  code: ErrorCode.MISSING_DATA_ERROR,
+        
+                });
+                return error.message;
+              }
             const existingProduct = await this.productsRepository.getByCode(product.code);
             if (existingProduct) {
                 return { error: `The product that you created is duplicated.` };
