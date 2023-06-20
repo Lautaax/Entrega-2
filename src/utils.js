@@ -3,8 +3,9 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt"
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
+const __dirname = dirname(__filename);
+console.log(__dirname)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, `${__dirname}/public/images`);

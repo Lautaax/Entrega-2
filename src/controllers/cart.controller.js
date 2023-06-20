@@ -6,26 +6,35 @@ export async function getCartsall(req,res){
         const consulta = await cartService.getCarts();
         return res.send({ status: "Success", payload: consulta });
     } catch (error) {
-        console.log(error)
+        req.logger.error(`Cannot get all the carts ${error}`);
+        return res.status(500).send({
+            status: "error",
+            error: "Failed to load the carts",
+        });
     }
 }
 
 export async function getCartbyId(req,res){
     try {
         const cartId = req.params.cid;
-        console.log(cartId)
+    
         const cart = await cartService.getCartsbyId(cartId);
       
         if (!cart) {
+        
           return res.status(404).send({
             status: "Error",
-            error: "cart was not found",
+            error: "Cart was not found",
           });
         }
         return res.send({ status: "OK", message: "Cart found", payload: cart });
 
     } catch (error) {
-        console.log(error)
+        req.logger.error(`Error to get the cart ${error}`)
+        return res.status(500).send({
+            status: "error",
+            error: "Cannot get cart with mongoose",
+        });
     } 
 }
 export async function addProductcart(req,res){
@@ -33,7 +42,7 @@ export async function addProductcart(req,res){
         const cId = req.params.cid
         const pId = req.params.pid
         const { quantity } = req.body
-        console.log(cId, pId)
+    
         
         let resul = await cartService.addProductCart(cId, pId, quantity);
         if (!resul || typeof resul === "string") {
@@ -44,7 +53,11 @@ export async function addProductcart(req,res){
         return res.send({ status: "success", payload: resul });
 
     } catch (error) {
-        console.log(error)
+        req.logger.error(`Cannot add products to the cart with mongoose ${error}`);
+        return res.status(500).send({
+            status: "error",
+            error: "Failed to add products to the cart",
+        });
     }
 }
 export async function updatetheCart(req,res){
@@ -59,7 +72,11 @@ export async function updatetheCart(req,res){
         }
         return res.send({ status: "success", payload: result});
     } catch (error) {
-        console.log(error)
+        req.logger.error(`Cannot update the cart with mongoose ${error}`);
+        return res.status(500).send({
+            status: "error",
+            error: "Failed to update the cart",
+        });
     }
 }
 export async function updateProductFromtheCart(req,res){
@@ -67,7 +84,7 @@ export async function updateProductFromtheCart(req,res){
         const cId = req.params.cid
         const pId = req.params.pid
         const { quantity } = req.body
-        console.log(cId, pId)
+        
 
         let resul = await cartService.updateProductFromCart(cId, pId, quantity);
         if (!resul) {
@@ -78,13 +95,18 @@ export async function updateProductFromtheCart(req,res){
         return res.send({ status: "success", payload: resul });
 
     } catch (error) {
-        console.log(error)
+        req.logger.error(`Cannot update the quantity of products of the cart with mongoose ${error}`);
+        return res.status(500).send({
+            status: "error",
+            error: "Failed to update the quantity of products of the cart",
+        });
     }
 }
 export async function deletetheCart(req,res){
     try {
-        console.log(req.params.cid)
+      
         const cId= req.params.cid;
+        
         let resultado= await cartService.deleteCart(cId);
         if (!resultado) {
             return res
@@ -93,14 +115,18 @@ export async function deletetheCart(req,res){
         }
         return res.send({ status: "success", payload: resultado });
     } catch (error) {
-        console.log(error)
+        req.logger.error(`Cannot to delete the cart with mongoose ${error}`);
+        return res.status(500).send({
+            status: "error",
+            error: "Failed to delete the cart",
+        });
     }
 }
 export async function deleteproductFromthecart(req,res){
     try {
         const { cid,pid }=req.params
     
-         console.log(req.params)
+    
  
          let resul = await cartService.deleteproductfromCart(cid, pid);
          if (!resul) {
@@ -111,12 +137,17 @@ export async function deleteproductFromthecart(req,res){
          return res.send({ status: "success", payload: resul });
  
      } catch (error) {
-         console.log(error)
+        req.logger.error(`Cannot update the quantity of products of the cart with mongoose ${error}`);
+        return res.status(500).send({
+            status: "error",
+            error: "Failed to delete products from the cart",
+        });
      }
 }
 export async function purchase(req,res){
-    const { cid} = req.params
-    console.log(cid)
+    try {
+            const { cid} = req.params
+
     const response= await ticketService.createTickettoCart(cid)
     if (!response) {
         return res
@@ -124,4 +155,12 @@ export async function purchase(req,res){
             .send({ status: "error", error: "The cart does not exists" });
     }
     return res.send({ status: "success", payload: response });
+    } catch (error) {
+        req.logger.error(`Failed to make a ticket with mongoose`);
+        return res.status(500).send({
+            status: "error",
+            error: "Failed to make the ticket",
+        });
+    }
+
 }

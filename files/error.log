@@ -1,0 +1,107 @@
+{"level":"http","message":"GET in /api/products/6435d26ae8d538b99cf7f9e8 - 20:48:29"}
+{"level":"error","message":"Cannot get products with mongoose ReferenceError: error is not defined"}
+{"level":"http","message":"GET in /loggerTest - 20:51:20"}
+{"level":"http","message":"GET in /loggerTest - 20:52:09"}
+{"level":"debug","message":"This is a debug log"}
+{"level":"http","message":"This is an HTTP log"}
+{"level":"info","message":"This is an info log"}
+{"level":"warning","message":"This is a warning log"}
+{"level":"error","message":"This is an error log"}
+{"level":"http","message":"GET in /loggerTest - 21:04:21"}
+{"level":"debug","message":"This is a debug log"}
+{"level":"http","message":"This is an HTTP log"}
+{"level":"info","message":"This is an info log"}
+{"level":"warning","message":"This is a warning log"}
+{"level":"error","message":"This is an error log"}
+{"level":"http","message":"GET in /api/products/6435d26ae8d538b99cf7f9e8 - 21:04:45"}
+{"level":"error","message":"Cannot get products with mongoose ReferenceError: error is not defined"}
+{"level":"http","message":"GET in /api/products/6435d26ae8d538b99cf7f9e8 - 21:04:48"}
+{"level":"error","message":"Cannot get products with mongoose ReferenceError: error is not defined"}
+{"level":"http","message":"GET in /api/products/6435d26ae8d538b99cf7f9e8 - 21:05:42"}
+{"level":"error","message":"Cannot get products with mongoose ReferenceError: error is not defined"}
+{"level":"http","message":"GET in /api/products/6435d26ae8d538b99cf7f9e8 - 21:05:44"}
+{"level":"error","message":"Cannot get products with mongoose ReferenceError: error is not defined"}
+{"level":"http","message":"GET in /api/products/6435d26ae8d538b99cf7f9e8 - 21:19:53"}
+{"level":"http","message":"GET in /api/carts - 21:26:18"}
+{"level":"http","message":"GET in /api/carts/64336c28e0827af37d69ef3A - 21:26:35"}
+{"level":"info","message":"GET in /api/carts/64336c28e0827af37d69ef3A - 21:57:25"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"error","message":"Listening on port 8080"}
+{"level":"error","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"GET in /api/products/ - 22:26:45"}
+{"level":"info","message":"GET in /api/products/6435d26ae8d538b99cf7f9eA - 22:27:07"}
+{"level":"error","message":"The product does not exist"}{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"Listening on port 8080"}
+{"level":"info","message":"POST in /api/sessions/login - 15:42:49"}
+{"level":"info","message":"GET in /api/products/6435d26ae8d538b99cf7f9eA - 15:43:00"}
+{"level":"error","message":"The product does not exist"}
+{"level":"info","message":"GET in /api/products/88 - 15:44:41"}
+{"level":"error","message":"The product does not exist"}
+{"level":"info","message":"GET in /api/products/88 - 15:53:25"}
+{"level":"error","message":"Cannot get products with mongoose BSONError: Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"}
+{"level":"info","message":"GET in /api/products/88 - 15:54:02"}
+{"level":"error","message":"Cannot get products with mongoose BSONError: Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"}
+{"level":"info","message":"GET in /api/products - 15:55:17"}
+{"level":"info","message":"GET in /api/products/6435d26ae8d538b99cf7f9e0 - 15:55:27"}
+{"level":"info","message":"GET in /api/products/6435d26ae8d538b99cf7f9e0 - 15:57:15"}
+{"level":"info","message":"GET in /api/products/ASD - 15:58:59"}
+{"level":"error","message":"Cannot get products with mongoose BSONError: Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"}
+{"level":"info","message":"GET in /api/products - 16:08:13"}
+{"level":"info","message":"GET in /api/products/6435d26ae8d538b99cf7f9eA - 16:08:27"}
+{"level":"error","message":"The product with the id 6435d26ae8d538b99cf7f9ea does not exist"}
+{"level":"info","message":"GET in /api/products/6435d26ae8d538b99cf7f9e6 - 16:16:51"}
+{"level":"info","message":"GET in /loggerTest - 16:27:46"}
+{"level":"info","message":"GET in /loggerTest - 16:28:15"}
+{"level":"debug","message":"This is a debug log"}
+{"level":"http","message":"This is an HTTP log"}
+{"level":"info","message":"This is an info log"}
+{"level":"warning","message":"This is a warning log"}
+{"level":"error","message":"This is an error log"}
+{"level":"info","message":"GET in / - 16:31:28"}
+{"level":"info","message":"GET in / - 16:36:55"}
+{"level":"info","message":"GET in / - 16:36:57"}
+{"level":"info","message":"GET in / - 17:15:29"}
+{"level":"info","message":"GET in /css/styleProducts.css - 17:15:29"}
+{"level":"info","message":"GET in /js/login.js - 17:15:29"}
+{"level":"info","message":"GET in / - 17:15:29"}
+{"level":"info","message":"GET in /loggerTest - 17:15:34"}
+{"level":"debug","message":"This is a debug log"}
+{"level":"http","message":"This is an HTTP log"}
+{"level":"info","message":"This is an info log"}
+{"level":"warning","message":"This is a warning log"}
+{"level":"error","message":"This is an error log"}
+{"level":"info","message":"GET in /loggerTest - 17:20:03"}
+{"level":"debug","message":"This is a debug log"}
+{"level":"http","message":"This is an HTTP log"}
+{"level":"info","message":"This is an info log"}
+{"level":"warning","message":"This is a warning log"}
+{"level":"error","message":"This is an error log"}
+{"level":"info","message":"GET in /loggerTest - 17:21:19"}
+{"level":"debug","message":"This is a debug log"}
+{"level":"http","message":"This is an HTTP log"}
+{"level":"info","message":"This is an info log"}
+{"level":"warning","message":"This is a warning log"}
+{"level":"error","message":"This is an error log"}

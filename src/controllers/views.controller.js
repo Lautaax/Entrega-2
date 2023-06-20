@@ -2,6 +2,8 @@ import { productService } from '../dao/services/product.service.js';
 import { cartService } from '../dao/services/cart.service.js';
 import { messagesService } from '../dao/services/messages.service.js';
 import { ticketService } from '../dao/services/ticket.service.js';
+import __dirname from '../utils.js';
+
 export async function getViewProducts(req,res){
     const { limit = 2, page = 1, category, usable, sort } = req.query;
     const {
@@ -51,6 +53,7 @@ export async function ticket(req,res){
 
 }
 export function loginView(req,res){
+
    return res.render("login");
 }
 export function registerView(req,res){
@@ -76,7 +79,7 @@ export const chatView = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(`Failed to render chat view: ${error}`);
+    req.logger.error(`Failed to render chat view: ${error}`);
     res
       .status(500)
       .send({ status: "error", error: "Failed to render chat view" });

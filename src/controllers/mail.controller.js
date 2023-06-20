@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import __dirname from "../utils.js";
-import configMailSms from "../configmailsms.js";
+import configMailSms from "../config/configmailsms.js";
 
 const {
     nodemailerConfig: { service, port, user, password,mail_receptor},
@@ -19,9 +19,11 @@ const transport = nodemailer.createTransport({
     }
 })
 export async function sendEmail(req,res){
+    const {email}=req.session.user
+
     let result = await transport.sendMail({
         from: user,
-        to: mail_receptor,
+        to: email,
         subject: "Test mail",
         html: `
         <h1>This is a testing mail</h1>
@@ -32,5 +34,6 @@ export async function sendEmail(req,res){
             cid: 'hola1'
         }]
     })
+
     res.send({ status: "success", result: "mail sent" })
 }
