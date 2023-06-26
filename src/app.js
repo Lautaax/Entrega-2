@@ -6,6 +6,7 @@ import morgan from "morgan"
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
+import { faker } from "@faker-js/faker/locale/es";
 import productsRouter from './routes/products.router.js';
 import cartrouter from './routes/cart.router.js'
 import viewrouter from './routes/views.router.js'
