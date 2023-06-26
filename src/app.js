@@ -1,6 +1,6 @@
 import express from "express";
 import handlebars from 'express-handlebars'
-import __dirname from "./utils/utils.js";
+import __dirname from "./utils.js";
 import socket from './socket.js'
 import morgan from "morgan"
 import session from "express-session";
@@ -11,7 +11,7 @@ import productsRouter from './routes/products.router.js';
 import cartrouter from './routes/cart.router.js'
 import viewrouter from './routes/views.router.js'
 import database from "./db.js";
-import config from "./config.js";
+import config from "./config/config.js";
 import sessionsRouter from "./routes/sessions.router.js"
 import passport from "passport";
 import initializePassport from "./auth/passport.js";
@@ -39,7 +39,7 @@ app.use(
   session({
     store: MongoStore.create({
       mongoUrl: config.dbUrl,
-      ttl:20
+      ttl: 60
     }),
     resave: true,
     saveUninitialized: false,
