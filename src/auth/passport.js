@@ -67,7 +67,8 @@ const initializePassport = () => {
         callbackUrl
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-  
+            console.log(profile)
+
             let user = await userModel.findOne({ email: profile._json.email }).lean()
 
             if (user.email === "adminCoder@coder.com") {
@@ -84,7 +85,6 @@ const initializePassport = () => {
                     email: profile._json.email,
                     password: "",
                     cart:cartModel.create({})
-
                 }
                 let result = await userModel.create(newUser)
                 
@@ -95,6 +95,11 @@ const initializePassport = () => {
             return done(error)
         }
     }))
+
+
+
+
+
     passport.serializeUser((user, done) => {
 
         done(null, user._id)

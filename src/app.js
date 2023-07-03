@@ -78,17 +78,17 @@ const httpServer = app.listen(8080, () => {
 
 database.connect();
 //app.use("/chat" ,chatRouter);
-app.get("/loggerTest", loggerRouter);
-app.get("/mockingproducts",mockRouter)
+app.get("/mockingproducts", mockRouter)
+app.use("/recovery", mailRouter)
+app.get("/sms", smsRouter)
+//productServer.use("/chat",chatRouter);
 app.use("/api/sessions", sessionsRouter);
-app.use("/", viewrouter);
+//productServer.get("/loggerTest",loggerRouter)
 app.use("/api/products", productsRouter);
-app.get("/mail",mailRouter)
-app.get("/sms",smsRouter)
+app.get("/loggerTest", loggerRouter);
 app.use("/api/carts", cartrouter);
 app.use("/api/users",usersRouter)
-app.use("/recovery", mailRouter)
-app.get("/loggerTest", loggerRouter);
+app.use("/", viewrouter);
 socket.connect(httpServer)
 
 

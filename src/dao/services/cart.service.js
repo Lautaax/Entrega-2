@@ -108,7 +108,7 @@ class CartService {
     deleteCart = async (cid) => {
         try {
             const cart = await this.cartRepository.getCartsbyId({ _id: cid })
-            console.log(cart.products);
+          
             const cartDeleted = await this.cartRepository.deleteCartAll({ _id: cid }, { products: [] });
             return cartDeleted
         } catch (error) {
