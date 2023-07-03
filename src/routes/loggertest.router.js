@@ -2,7 +2,7 @@ import Router from "express"
 import express from "express";
 const router=Router()
 
-router.get("/loggerTest", (req, res) => {
+router.use("/loggerTest", (req, res) => {
     req.logger.debug("This is a debug log");
     req.logger.http("This is an HTTP log");
     req.logger.info("This is an info log");

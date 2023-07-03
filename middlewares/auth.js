@@ -1,13 +1,19 @@
-import ErrorCode from "../src/dao/services/errors/enum.errors.js";
-import CustomError from "../src/dao/services/errors/errors.service.js";
-import { authenticationErrorInfo } from "../src/dao/services/errors/info.js";
-
+import { userService } from "../src/dao/services/user.service.js";
 function roladm(req, res, next) {
 
-  if (req.session.user.role === "user" && req.session.role !== undefined) {
+  if (req.session.user.role === "user" && req.session.user.role !== undefined) {
     return res.status(401).send({ status: 'Error', error: "You cannot access to this place" });
   } else {
     next();
+  }
+}
+function createProductpremium(req,res,next){
+
+  if(req.user.role==="premium" || req.user.role==="admin"){
+    next();
+  }else{
+
+    return res.status(401).send({ status: 'Error', error: "You cannot create a product" });
   }
 }
 function roluser(req, res, next) {
@@ -18,16 +24,7 @@ function roluser(req, res, next) {
   }
 }
 function checkLogin(req, res, next) {
-  if (!req.session.user.email || !req.session.user.password) {
-    const error = CustomError.createError({
-      name: "Authentication error",
-      cause: authenticationErrorInfo(),
-      message: "Error authenticating user",
-      code: ErrorCode.AUTHENTICATION_ERROR,
-      status: 401,
-    });
-    return next(error);
-  }
+
   if (!req.session.user) {
     return res.redirect("/");
 
@@ -40,4 +37,4 @@ function checkLogged(req, res, next) {
   next();
 }
 
-export { checkLogged, checkLogin, roladm, roluser };
+export { checkLogged, createProductpremium,checkLogin, roladm, roluser };

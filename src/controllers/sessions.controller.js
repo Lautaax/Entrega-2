@@ -7,6 +7,7 @@ export async function failRegister(req, res) {
   return res.send({ status: "status", error: "User already exists" })
 }
 export async function loginUser(req, res) {
+
   if (!req.user)
     return res.status(401).send({ status: "error", error: "Unauthorized" });
 
@@ -39,12 +40,12 @@ export function Logout(req, res) {
     return res.send({ status: "error", message: "Logout error", body: error });
   });
 }
-export function failLogin(req,res){
-  res.send({status:"error",error:"Authentication error"})
+export function failLogin(req, res) {
+  res.send({ status: "error", error: "Authentication error" })
 }
-export function getcurrentUser(req,res){
+export function getcurrentUser(req, res) {
 
   const userDto = new CurrentUserDto(req.session.user);
-  console.log(userDto)
- return res.send({status:"success",payload:userDto})
+
+  return res.send({ status: "success", payload: userDto })
 }

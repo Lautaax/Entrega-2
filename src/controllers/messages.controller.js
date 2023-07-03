@@ -11,7 +11,8 @@ export const getMessages = async (req, res) => {
 
     return res.status(200).send({ status: "success", payload: messages });
   } catch (error) {
-    console.log(`Failed to get messages: ${error}`);
+
+    req.logger.error(`Error to get messages ${error}`)
     return res
       .status(500)
       .send({ status: "error", error: "Failed to get messages" });

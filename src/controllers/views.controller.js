@@ -2,8 +2,10 @@ import { productService } from '../dao/services/product.service.js';
 import { cartService } from '../dao/services/cart.service.js';
 import { messagesService } from '../dao/services/messages.service.js';
 import { ticketService } from '../dao/services/ticket.service.js';
+import { userService } from '../dao/services/user.service.js';
 import __dirname from '../utils.js';
-
+import config from "../config.js";
+import jwt from "jsonwebtoken"
 export async function getViewProducts(req,res){
     const { limit = 2, page = 1, category, usable, sort } = req.query;
     const {
@@ -52,12 +54,29 @@ export async function ticket(req,res){
   })
 
 }
+
+export function mailtorecovery(req,res){
+  return res.render("formemailrecovery")
+}
+export async function recoverpassword(req,res){
+
+  const { token} = req.params;
+
+  const decodedToken = jwt.verify(token,config.sessionSecret);
+
+  const recUser = await userService.findbyuserid({email:decodedToken.email})
+  console.log(recUser.tokenExpiration);
+  return res.render("recoverypassword")
+}
 export function loginView(req,res){
 
    return res.render("login");
 }
 export function registerView(req,res){
     return res.render("register");
+}
+export function formproducts(req,res){
+  return res.render("form-products")
 }
 export function productsInformation(req,res){
   return res.render("products", { user: req.session.user });
@@ -68,7 +87,7 @@ export const chatView = async (req, res) => {
     res.render("chat", {
       messages,
       style: "styles.css",
-      title: "Ephemer - Chat",
+      title: "Chat",
     });
 
     if (!messages) {
@@ -79,7 +98,7 @@ export const chatView = async (req, res) => {
       });
     }
   } catch (error) {
-    req.logger.error(`Failed to render chat view: ${error}`);
+console.log(error)
     res
       .status(500)
       .send({ status: "error", error: "Failed to render chat view" });

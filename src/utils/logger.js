@@ -1,6 +1,6 @@
 import winston from "winston"
 import __dirname from "../utils.js";
-import config from "../config/config.js";
+import config from "../config.js";
 const { loggermode } = config
 const customLevelOptions = {
     levels: {
@@ -17,18 +17,18 @@ const customLevelOptions = {
         info: "blue",
         warning: "yellow",
         error: "red",
-        fatal: "pink"
+        fatal: "magenta"
     }
 }
 
-export const logger = winston.createLogger({
+const logger = winston.createLogger({
     levels: customLevelOptions.levels,
 
     transports: [
 
         new winston.transports.Console({
 
-            level: loggermode === "DEVELOPMENT" ? "debug" : "info",
+            levels: customLevelOptions.levels,
             format: winston.format.combine(
                 winston.format.colorize({ colors: customLevelOptions.colors }),
                 winston.format.simple()

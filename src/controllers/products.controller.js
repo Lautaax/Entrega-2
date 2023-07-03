@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { productService } from "../dao/services/product.service.js";
+import { userService } from "../dao/services/user.service.js";
 export async function getAll(req, res) {
     try {
         const productsAll = await productService.getAllproducts()
@@ -33,11 +34,11 @@ export async function getProductsbyId(req, res) {
     try {
 
         const pid = new mongoose.Types.ObjectId(req.params.pid);
-        
-      
-        const consultaId = await productService.getProductsbyitsId(pid);
+
+
+        const consultaId = await productService.getProductsbyitsId({ _id: pid });
         if (!consultaId) {
-            
+
             req.logger.error(`The product with the id ${pid} does not exist`);
             return res
                 .status(400)
@@ -58,33 +59,47 @@ export async function addProducts(req, res) {
     try {
         let product = req.body;
 
+
+        let userVal = req.user;
+
         const filesToUpdate = req.files
         product.thumbnails = [];
-        // if (req.files) thumbnails = req.files;
+        let val = await userService.findbyuserid({_id:userVal._id})
 
-        // if (!req.files) {
-        //   return res.status(400).send({
-        //     status: "error",
-        //     error: `Thumbnails could not be saved`,
-        //   });
-        // }
-        if (filesToUpdate) {
+        if (val.role === "premium" || val.role === "admin") {
+            if (product.owner=== undefined) {
+                product.owner = "admin"
+            } else {
+                product.owner = val.email
+            }
 
-            filesToUpdate.forEach(files => {
-                const imgUrlUpdate = `http://localhost:8080/images/${files.filename}`;
-                product.thumbnails.push(imgUrlUpdate)
-            });
-        }
-        const createProduct = await productService.createProduct(product);
-        if (!createProduct || typeof createProduct === "string") {
+
+            if (filesToUpdate) {
+
+                filesToUpdate.forEach(files => {
+                    const imgUrlUpdate = `http://localhost:8080/images/${files.filename}`;
+
+                    product.thumbnails.push(imgUrlUpdate)
+                });
+            }
+
+            const createProduct = await productService.createProduct(product);
+            if (!createProduct || typeof createProduct === "string") {
+
+                return res
+                    .status(400)
+                    .send({ status: "error", error: createProduct });
+            }
+            return res.send({ status: "success", payload: createProduct });
+        } else {
             return res
-                .status(400)
-                .send({ status: "error", error: createProduct });
+                .status(401)
+                .send({ status: "error", error: "You don't have enough permissions" });
         }
 
-        return res.send({ status: "success", payload: createProduct });
     } catch (error) {
         req.logger.error(`Cannot add products with mongoose ${error}`);
+
         return res.status(500).send({
             status: "error",
             error: "Failed to add products",
@@ -95,14 +110,12 @@ export async function addProducts(req, res) {
 }
 export async function updateProducts(req, res) {
     try {
- 
-
+        let userVal = req.user;
+        let val = await userService.findbyuserid(userVal._id)
+        let id= await getIdofadminoruser(val)
         const product = req.body;
-        const pid = new mongoose.Types.ObjectId(req.params.pid);
-
-
-        const result = await productService.updateProduct(product, pid);
-        if (!product) {
+        const result = await productService.updateProduct(product, id);
+        if (!result) {
             req.logger.error(`The product with the id ${pid} cannot be updated`);
             return res.send({ status: "error", error: "Incomplete values" });
         }
@@ -116,11 +129,14 @@ export async function updateProducts(req, res) {
         });
     }
 }
-export async function deleteProducts(res, req) {
+export async function deleteProducts(req,res) {
     try {
-        c
-        const pid = new mongoose.Types.ObjectId(req.params.pid);
-        let result = await productService.deleteProduct(pid);
+
+        let userVal = req.user;
+        let val = await userService.findbyuserid(userVal._id)
+       let id= await getIdofadminoruser(val)
+        let result = await productService.deleteProduct(id);
+
         if (!result) {
             req.logger.error(`The product with the id ${pid} cannot be deleted`)
             return res.status(404).send({
@@ -128,11 +144,9 @@ export async function deleteProducts(res, req) {
                 error: "Could not delete this product. No products founded with this ID in the database",
             });
         }
-        res.send({ status: "Product successfully eliminated", payload: result });
-
-
-
+       return res.send({ status: "Product successfully eliminated", payload: result});
     } catch (error) {
+      
         req.logger.error(`Cannot delete products with mongoose ${error}`);
         return res.status(500).send({
             status: "error",
@@ -140,3 +154,14 @@ export async function deleteProducts(res, req) {
         });
     }
 }
+
+async function getIdofadminoruser(val){
+    let pid=""
+    if (val.role === "admin") {
+        pid = new mongoose.Types.ObjectId(req.params.pid);
+    } else {
+        let productUser = await productService.getProductsbyitsId({ owner: val.email })
+        pid = productUser._id
+    }
+    return pid;
+}   

@@ -32,7 +32,7 @@ class TicketService {
                     return {error: `User not founded`}
                 }
     
-                let ammount = 0;
+                let amount = 0;
                 const code = faker.string.alphanumeric(5);
                 const date= new Date()
                 const purchase_datetime = date.toLocaleString();
@@ -70,7 +70,7 @@ class TicketService {
                     });
     
                     
-                    ammount += price * quantity;
+                    amount += price * quantity;
                 }
                 const purchaser = user.email;
     
@@ -79,7 +79,7 @@ class TicketService {
                     purchase_datetime,
                     successProducts: products,
                     unsuccessfulProducts: unsuccessfulProducts,
-                    ammount,
+                    amount,
                     purchaser
                 };
     
@@ -108,7 +108,7 @@ class TicketService {
                    
                 } else {
                     cart.products = [];
-                    console.log(cart)
+ 
                         await this.cartRepository.updatetheCart(cart._id, cart);
                 }
     

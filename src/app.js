@@ -11,14 +11,15 @@ import productsRouter from './routes/products.router.js';
 import cartrouter from './routes/cart.router.js'
 import viewrouter from './routes/views.router.js'
 import database from "./db.js";
-import config from "./config/config.js";
+import config from "./config.js";
 import sessionsRouter from "./routes/sessions.router.js"
 import passport from "passport";
 import initializePassport from "./auth/passport.js";
 import mockRouter from "./routes/mocking.router.js";
 import smsRouter from "./routes/sms.router.js"
 import mailRouter from './routes/mail.router.js'
-import { winstonLogger,logger } from "./utils/logger.js";
+import usersRouter from "./routes/users.router.js"
+import { winstonLogger } from "./utils/logger.js";
 import loggerRouter from "./routes/loggertest.router.js"
 
 // import passport from "passport";
@@ -33,13 +34,16 @@ app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
 app.use(morgan("dev"))
+app.use(cookieParser())
+app.use(winstonLogger)
+app.use(express.json());
 
 
 app.use(
   session({
     store: MongoStore.create({
       mongoUrl: config.dbUrl,
-      ttl: 60
+      ttl: 6000
     }),
     resave: true,
     saveUninitialized: false,
@@ -65,6 +69,10 @@ const httpServer = app.listen(8080, () => {
 
     } catch (error) {
         console.log(error);
+        return res.status(500).send({
+          status: "error",
+          error: "Failed to the connect to the server",
+        });
     }
 });
 
@@ -78,6 +86,9 @@ app.use("/api/products", productsRouter);
 app.get("/mail",mailRouter)
 app.get("/sms",smsRouter)
 app.use("/api/carts", cartrouter);
+app.use("/api/users",usersRouter)
+app.use("/recovery", mailRouter)
+app.get("/loggerTest", loggerRouter);
 socket.connect(httpServer)
 
 

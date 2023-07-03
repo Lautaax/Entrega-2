@@ -3,7 +3,7 @@ import local from "passport-local"
 import {userModel} from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
-import config from "../config/config.js";
+import config from "../config.js";
 import {cartModel}  from "../dao/models/cart.model.js";
 
 
@@ -45,7 +45,7 @@ const initializePassport = () => {
                 return done(null, false)
             }
             const validPassword = isValidPassword(user, password);
-  
+            console.log(validPassword)
             if (!validPassword) {
                 console.error("Incorrect credentials")
                 return done(null, false)

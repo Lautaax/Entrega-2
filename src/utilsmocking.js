@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker/locale/es";
-global.counter = 0
+
 
 export const generateProduct = () => {
 

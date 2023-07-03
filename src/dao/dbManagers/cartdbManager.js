@@ -98,7 +98,7 @@ export default class cartdbManager {
   deleteCart = async (cid) => {
     try {
       const cart = await cartModel.findOne({ _id: cid })
-      console.log(cart.products);
+
       const cartDeleted = await cartModel.updateOne({ _id: cid }, { products: [] });
       return cartDeleted
     } catch (error) {

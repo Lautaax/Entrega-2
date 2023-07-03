@@ -16,13 +16,13 @@ const list = document.getElementById("listproducts")
 const imagelist = document.getElementById("imageproducts")
 socket.on("products", (products) => {
     // productList.innerHTML+=products // let showProducts = ""
-    console.log(products.stock)
+ 
        let listProducts = "";
     products.forEach((prod) => {
      
         listProducts += `<br>`+`-`+`The product ${prod.title} with the code ${prod.code} with a description ${prod.description} and the price of that product is ${prod.price}`;
     });
-    list.innerHTML = `${Products}`
+    list.innerHTML = `${listProducts}`
 
     products.thumbnails.forEach((imag)=>{
         const imgElem=document.createElement("img");
@@ -33,4 +33,3 @@ socket.on("products", (products) => {
     })
  
 });
-

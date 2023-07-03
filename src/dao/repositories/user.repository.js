@@ -23,7 +23,7 @@ class UserRepository {
 
     findById = async(id) => {
         try {
-            return await this.model.findById(id);
+            return await this.model.findOne(id).lean();
         } catch (error) {
            console.log(error)
         }
@@ -39,12 +39,22 @@ class UserRepository {
 
     updateUser = async (user) => {
         try {
-            return await this.model.findOneAndUpdate({_id: user._id}, { $set: user });
+            
+            return await this.model.updateOne({_id: user._id},user);
         } catch (error) {
              console.log(error)
+        }
+    }
+    updateFunction=async (id,user)=>{
+        try {
+            console.log(user);
+            return await this.model.updateOne({_id:id},user);
+            
+        } catch (error) {
+            console.log(error)
         }
     }
 }
 
 
-export const userRepository = new UserRepository();
+export const userRepository = new UserRepository(); 
