@@ -1,5 +1,5 @@
 import winston from "winston"
-import __dirname from "../utils.js";
+import __dirname from "../dirname.js";
 import config from "../config.js";
 const { loggermode } = config
 const customLevelOptions = {
