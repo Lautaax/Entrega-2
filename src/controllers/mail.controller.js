@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
-import __dirname, { isValidPassword,createHash } from "../utils.js";
+import { isValidPassword,createHash } from "../utils.js";
+import __dirname from "../dirname.js";
 import configMailSms from "../config/configmailsms.js";
 import config from "../config.js";
 import { userService } from "../dao/services/user.service.js";

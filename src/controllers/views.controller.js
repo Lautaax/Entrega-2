@@ -3,7 +3,7 @@ import { cartService } from '../dao/services/cart.service.js';
 import { messagesService } from '../dao/services/messages.service.js';
 import { ticketService } from '../dao/services/ticket.service.js';
 import { userService } from '../dao/services/user.service.js';
-import __dirname from '../utils.js';
+import __dirname from '../dirname.js';
 import config from "../config.js";
 import jwt from "jsonwebtoken"
 export async function getViewProducts(req,res){

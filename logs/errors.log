@@ -1636,3 +1636,9 @@
 {"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/64399f6b16208f147583f8c9 - 10:30:03"}
 {"level":"debug","message":"GET in /products - 10:30:26"}
 {"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/64399f6b16208f147583f8c9 - 10:30:28"}
+{"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/64399f6b16208f147583f8c9 - 10:32:11"}
+{"level":"debug","message":"GET in /api/sessions/logout - 10:33:01"}
+{"level":"debug","message":"GET in / - 10:33:03"}
+{"level":"debug","message":"GET in /api/sessions/github - 10:33:04"}
+{"level":"debug","message":"GET in /api/sessions/githubcallback?code=c672ea8aa4edf56244a8 - 10:33:05"}
+{"level":"debug","message":"GET in /products - 10:33:08"}
