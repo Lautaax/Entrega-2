@@ -7,6 +7,7 @@ router.post("/register", passport.authenticate("register", { failureRedirect: "/
 
 
 router.get("/failRegister",failRegister)
+
 router.post("/login",passport.authenticate("login",{failureRedirect:"/api/sessions/failLogin"}),loginUser);
 
 

@@ -10,7 +10,8 @@ addToCartForms.forEach((form) => {
     const productId = form.getAttribute("id").split("-")[1];
 
     const prodTitle = form.closest("div").querySelector("h5").textContent;
-    
+    alert(productId)
+    alert(cId)
     fetch(`/api/carts/${cId}/product/${productId}`, {
       method: "POST",
     })

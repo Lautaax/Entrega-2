@@ -14,8 +14,9 @@ const home=document.getElementById("home");
 
     const title=document.getElementById("title")
     // const prodTitle = form.closest("div").querySelector("h5").textContent;
-
-    fetch(`/api/carts/${cId}/product/${pId}`, {
+    alert(cId)
+    alert(pId)
+    let response=fetch(`/api/carts/${cId}/product/${pId}`, {
       method: "POST",
     })
       .then(() => {
@@ -33,6 +34,7 @@ const home=document.getElementById("home");
         });
       })
       .catch((error) => console.log(error));
+    console.log(response.ok)
   });
  
   

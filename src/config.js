@@ -17,7 +17,7 @@ const config ={
     clientSecret:process.env.CLIENT_SECRET,
     callbackUrl:process.env.CALLBACK_URL,
     mode:process.env.DEVELOPMENT_MODE,
-    
+    jwtSecret: process.env.JWT_SECRET,
     loggermode:process.env.LOGGER
 }
 export default config

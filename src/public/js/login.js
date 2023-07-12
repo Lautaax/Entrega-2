@@ -17,7 +17,9 @@ form.addEventListener("submit", async (e) => {
     },
   }) 
 
+
   if(response.ok){
+   
     window.location.href = "/products";
   }else{
     Swal.fire({
