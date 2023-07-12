@@ -7,7 +7,8 @@ import config from "../config.js";
 import {cartModel}  from "../dao/models/cart.model.js";
 
 
-const { clientID, clientSecret, callbackUrl } = config
+
+const { clientID, clientSecret, callbackUrl,jwtSecret } = config
 const LocalStrategy = local.Strategy
 const initializePassport = () => {
     passport.use("register", new LocalStrategy({ passReqToCallback: true, usernameField: "email" }, async (req, username, password, done) => {
@@ -50,11 +51,8 @@ const initializePassport = () => {
                 console.error("Incorrect credentials")
                 return done(null, false)
             }
-        
             delete user.password
-
-
-
+            console.log(user)
             return done(null, user);
         } catch (error) {
             return done(error)
@@ -67,8 +65,7 @@ const initializePassport = () => {
         callbackUrl
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-            console.log(profile)
-
+  
             let user = await userModel.findOne({ email: profile._json.email }).lean()
 
             if (user.email === "adminCoder@coder.com") {
@@ -85,6 +82,7 @@ const initializePassport = () => {
                     email: profile._json.email,
                     password: "",
                     cart:cartModel.create({})
+
                 }
                 let result = await userModel.create(newUser)
                 
@@ -95,11 +93,6 @@ const initializePassport = () => {
             return done(error)
         }
     }))
-
-
-
-
-
     passport.serializeUser((user, done) => {
 
         done(null, user._id)

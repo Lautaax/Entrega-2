@@ -1,4 +1,5 @@
 import { cartRepository } from "../repositories/cart.repository.js";
+import ErrorCode from "./errors/enum.errors.js";
 import CustomError from "./errors/errors.service.js";
 import { CartErrorInfo } from "./errors/info.js";
 class CartService {
@@ -22,7 +23,9 @@ class CartService {
     }
     addProductCart = async (cid, pid, quantity) => {
         try {
-            if (!cid || !pid || !quantity){
+
+            if (!cid || !pid ){
+      
                 const error = CustomError.createError({
                     name: "Add product error",
                     cause: CartErrorInfo({
@@ -37,6 +40,7 @@ class CartService {
                     code: ErrorCode.MISSING_DATA_ERROR,
           
                   });
+
                   return error.message;
             }
             let cartFound = await this.getCartsbyId({ _id: cid });

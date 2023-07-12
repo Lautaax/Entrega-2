@@ -1,5 +1,5 @@
 import CurrentUserDto from "../dao/dtos/current-user-dto.js";
-
+import { generateToken } from "../utilsjwt.js";
 export async function registerUser(req, res) {
   return res.send({ status: "Success", message: "User registered" })
 }
@@ -16,8 +16,9 @@ export async function loginUser(req, res) {
   } else {
     req.user.role = "user"
   }
-
-  req.session.user = {
+  console.log(req.user)
+  req.session.user= {
+    
     first_name: req.user.first_name,
     last_name: req.user.last_name,
     age: req.user.age,
@@ -25,9 +26,13 @@ export async function loginUser(req, res) {
     role: req.user.role,
     password: "",
     cart: req.user.cart,
+    
   }
 
   return res.send({ status: "success", payload: req.user })
+//  const accesstoken=generateToken(req.user)
+
+//   return res.cookie("tokenCookie",accesstoken,{maxAge:60*60*1000,httpOnly:true}).send({ status: "success" })
 }
 export function githubCallback(req, res) {
   req.session.user = req.user
@@ -35,7 +40,12 @@ export function githubCallback(req, res) {
 }
 export function Logout(req, res) {
   req.session.destroy((error) => {
-    if (!error) return res.send("Logout successful!");
+
+    if (!error){
+          
+        return res.send("Logout successful!");
+    }
+   
 
     return res.send({ status: "error", message: "Logout error", body: error });
   });
