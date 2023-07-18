@@ -1,7 +1,10 @@
 import { productModel } from "../models/product.model.js";
 
 export default class productdbManager {
-  constructor() { }
+  constructor(){
+    this.model = productModel;
+  }
+
   getAll = async()=>{
     try {
       const prod=await productModel.find();

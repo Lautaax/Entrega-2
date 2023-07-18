@@ -1,7 +1,6 @@
 import express from "express";
 import handlebars from 'express-handlebars'
 import __dirname from "./dirname.js";
-import socket from './socket.js'
 import morgan from "morgan"
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -13,6 +12,7 @@ import passport from "passport";
 import cookieParser from "cookie-parser"
 import initializePassport from "./auth/passport.js";
 import { winstonLogger } from "./utils/logger.js";
+import bodyParser from "body-parser";
 
 import routesFunction from "./routes/app.router.js";
 // import passport from "passport";
@@ -53,6 +53,8 @@ routesFunction(app)
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 
@@ -70,7 +72,10 @@ const httpServer = app.listen(8080, () => {
 });
 
 database.connect();
-socket.connect(httpServer)
+
+routesFunction(app)
+app.use(passport.initialize())
+//socket.connect(httpServer)
 
 
 

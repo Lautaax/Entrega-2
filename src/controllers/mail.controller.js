@@ -54,7 +54,7 @@ export async function sendEmail(req, res) {
         });
     }
     // res.send({ status: "success", result: "mail sent" })
-    return res.send({ status: "success", result: "pasa" })
+    return res.send({ status: "success", result: userac })
 }
 export async function resetPassword(req, res) {
     const { newPassword } = req.body;

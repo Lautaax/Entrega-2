@@ -7,6 +7,7 @@ import __dirname from '../dirname.js';
 import config from "../config.js";
 import jwt from "jsonwebtoken"
 export async function getViewProducts(req,res){
+    let valor;
     const { limit = 2, page = 1, category, usable, sort } = req.query;
     const {
         docs: products,
@@ -15,6 +16,7 @@ export async function getViewProducts(req,res){
         nextPage,
         prevPage,
       } = await productService.getProductsfilterPage(page, limit, category, usable, sort);
+console.log(products);
       res.render("products", {
       
         user:req.session.user,
@@ -24,7 +26,7 @@ export async function getViewProducts(req,res){
         hasNextPage,
         prevPage,
         nextPage,
-    
+        
       });
 }
 export async function getProductwithitsid(req,res){

@@ -60,43 +60,43 @@ export async function addProducts(req, res) {
         let product = req.body;
 
 
-        let userVal = req.user;
+        let userVal = req.session.user;
 
         const filesToUpdate = req.files
         product.thumbnails = [];
-        let val = await userService.findbyuserid({_id:userVal._id})
+        console.log(userVal)
+        let val = await userService.findbyuserid({email:userVal.email})
+        console.log(userVal)
+        // if (req.session.user.role === "premium" || req.session.user.role === "admin") {
+        //     if (product.owner=== undefined) {
+        //         product.owner = "admin"
+        //     } else {
+        //         product.owner = val.email
+        //     }
+           
+        //     if (!createProduct || typeof createProduct === "string") {
 
-        if (val.role === "premium" || val.role === "admin") {
-            if (product.owner=== undefined) {
-                product.owner = "admin"
-            } else {
-                product.owner = val.email
-            }
+        //         return res
+        //             .status(400)
+        //             .send({ status: "error", error: createProduct });
+        //     }
+        // } else {
+        //     return res
+        //         .status(401)
+        //         .send({ status: "error", error: "You don't have enough permissions" });
+        // }
+        if (filesToUpdate) {
 
+            filesToUpdate.forEach(files => {
+                const imgUrlUpdate = `http://localhost:8080/images/${files.filename}`;
 
-            if (filesToUpdate) {
-
-                filesToUpdate.forEach(files => {
-                    const imgUrlUpdate = `http://localhost:8080/images/${files.filename}`;
-
-                    product.thumbnails.push(imgUrlUpdate)
-                });
-            }
-
-            const createProduct = await productService.createProduct(product);
-            if (!createProduct || typeof createProduct === "string") {
-
-                return res
-                    .status(400)
-                    .send({ status: "error", error: createProduct });
-            }
-            return res.send({ status: "success", payload: createProduct });
-        } else {
-            return res
-                .status(401)
-                .send({ status: "error", error: "You don't have enough permissions" });
+                product.thumbnails.push(imgUrlUpdate)
+                
+            });
         }
-
+        console.log(product.thumbnails)
+        const createProduct = await productService.createProduct(product);
+        return res.send({ status: "success", payload: createProduct });
     } catch (error) {
         req.logger.error(`Cannot add products with mongoose ${error}`);
 
@@ -164,4 +164,4 @@ async function getIdofadminoruser(val){
         pid = productUser._id
     }
     return pid;
-}   
+}

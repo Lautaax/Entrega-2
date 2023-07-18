@@ -55,7 +55,8 @@ export function failLogin(req, res) {
 }
 export function getcurrentUser(req, res) {
 
-  const userDto = new CurrentUserDto(req.session.user);
 
+  const userDto = new CurrentUserDto(req.session.user);
+  console.log(userDto)
   return res.send({ status: "success", payload: userDto })
 }

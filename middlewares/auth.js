@@ -1,4 +1,4 @@
-import { userService } from "../src/dao/services/user.service.js";
+
 function roladm(req, res, next) {
 
   if (req.session.user.role === "user" && req.session.user.role !== undefined) {
@@ -8,8 +8,8 @@ function roladm(req, res, next) {
   }
 }
 function createProductpremium(req,res,next){
-
-  if(req.user.role==="premium" || req.user.role==="admin"){
+  console.log(req.session.user.role)
+  if(req.session.user.role==="premium" || req.session.user.role==="admin"){
     next();
   }else{
 
