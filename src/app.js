@@ -1,11 +1,11 @@
 import express from "express";
 import handlebars from 'express-handlebars'
 import __dirname from "./dirname.js";
+
+import cookieParser from "cookie-parser";
 import morgan from "morgan"
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import cookieParser from "cookie-parser";
-import { faker } from "@faker-js/faker/locale/es";
 import database from "./db.js";
 import config from "./config.js";
 import passport from "passport";
@@ -75,6 +75,8 @@ database.connect();
 
 routesFunction(app)
 app.use(passport.initialize())
+app.use(passport.session())
+
 //socket.connect(httpServer)
 
 

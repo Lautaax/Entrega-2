@@ -8,6 +8,8 @@ import config from "../config.js";
 import jwt from "jsonwebtoken"
 export async function getViewProducts(req,res){
     let valor;
+    
+
     const { limit = 2, page = 1, category, usable, sort } = req.query;
     const {
         docs: products,
@@ -16,25 +18,35 @@ export async function getViewProducts(req,res){
         nextPage,
         prevPage,
       } = await productService.getProductsfilterPage(page, limit, category, usable, sort);
-console.log(products);
+
+
       res.render("products", {
       
-        user:req.session.user,
+        user:req.user,
         products,
         page,
         hasPrevPage,
         hasNextPage,
         prevPage,
         nextPage,
-        
+   
       });
 }
+
+
 export async function getProductwithitsid(req,res){
     const { pid } = req.params;
+    console.log(req.user)
     const product = await productService.getProductsbyitsId(pid);
+    
+    // var decoded = jwt.decode(token, secret);
+    // console.log(decoded); //=> { foo: 'bar' }
+
     res.render("product", {
-      user:req.session.user,
+      user:req.user,
+
       product,
+      
   
     });
 }
@@ -52,7 +64,7 @@ export async function ticket(req,res){
   
   res.render("ticket",{
     ticketFinal: JSON.parse(JSON.stringify(ticketFinal)),
-    user: req.session.user
+    user: req.user
   })
 
 }
@@ -81,7 +93,7 @@ export function formproducts(req,res){
   return res.render("form-products")
 }
 export function productsInformation(req,res){
-  return res.render("products", { user: req.session.user });
+  return res.render("products", { user: req.user });
 }
 export const chatView = async (req, res) => {
   try {

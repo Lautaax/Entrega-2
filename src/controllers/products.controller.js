@@ -64,9 +64,9 @@ export async function addProducts(req, res) {
 
         const filesToUpdate = req.files
         product.thumbnails = [];
-        console.log(userVal)
-        let val = await userService.findbyuserid({email:userVal.email})
-        console.log(userVal)
+        // console.log(userVal)
+        // let val = await userService.findbyuserid({email:userVal.email})
+        // console.log(userVal)
         // if (req.session.user.role === "premium" || req.session.user.role === "admin") {
         //     if (product.owner=== undefined) {
         //         product.owner = "admin"
@@ -94,7 +94,7 @@ export async function addProducts(req, res) {
                 
             });
         }
-        console.log(product.thumbnails)
+        console.log(product)
         const createProduct = await productService.createProduct(product);
         return res.send({ status: "success", payload: createProduct });
     } catch (error) {
@@ -110,9 +110,11 @@ export async function addProducts(req, res) {
 }
 export async function updateProducts(req, res) {
     try {
-        let userVal = req.user;
+        let userVal = req.session.user;
+        console.log(req.user)
         let val = await userService.findbyuserid(userVal._id)
         let id= await getIdofadminoruser(val)
+        console.log(id)
         const product = req.body;
         const result = await productService.updateProduct(product, id);
         if (!result) {
@@ -122,11 +124,12 @@ export async function updateProducts(req, res) {
 
         return res.send({ status: "product successfully updated", payload: result });
     } catch (error) {
-        req.logger.error(`Cannot update products with mongoose ${error}`);
-        return res.status(500).send({
-            status: "error",
-            error: "Failed to update products",
-        });
+    console.log(error)
+        // req.logger.error(`Cannot update products with mongoose ${error}`);
+        // return res.status(500).send({
+        //     status: "error",
+        //     error: "Failed to update products",
+        // });
     }
 }
 export async function deleteProducts(req,res) {

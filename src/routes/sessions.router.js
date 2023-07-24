@@ -8,14 +8,15 @@ router.post("/register", passport.authenticate("register", { failureRedirect: "/
 
 router.get("/failRegister",failRegister)
 
-router.post("/login",passport.authenticate("login",{failureRedirect:"/api/sessions/failLogin"}),loginUser);
+// router.post("/login",passport.authenticate("login",{failureRedirect:"/api/sessions/failLogin"}),loginUser);
 
+router.post("/login",loginUser);
 
 
 router.get("/failLogin",failLogin)
 
 
-router.get("/current",getcurrentUser)
+router.get("/current",passport.authenticate("jwt",{session:false}),getcurrentUser)
 
 router.get("/github",passport.authenticate("githublogin",{scope:["user:email"] }),(req,res)=>{
 

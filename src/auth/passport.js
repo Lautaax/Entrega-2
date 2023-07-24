@@ -5,11 +5,25 @@ import { createHash, isValidPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
 import config from "../config.js";
 import {cartModel}  from "../dao/models/cart.model.js";
+import jwt from 'passport-jwt';
 
 
+const { clientID, clientSecret, callbackUrl,jwtSecret } = config;  
+const LocalStrategy = local.Strategy;
+const JWTStrategy=jwt.Strategy;
+const ExtractJwt=jwt.ExtractJwt;
 
-const { clientID, clientSecret, callbackUrl,jwtSecret } = config
-const LocalStrategy = local.Strategy
+const cookieExtractor=(req)=>{
+    let token=null;
+    if(req && req.cookies){
+        token=req.cookies["jwtCookie"];
+    }
+    return token;
+}
+const jwtOptions={
+    secretOrKey:jwtSecret,
+    jwtFromRequest:ExtractJwt.fromExtractors([cookieExtractor])
+}
 const initializePassport = () => {
     passport.use("register", new LocalStrategy({ passReqToCallback: true, usernameField: "email" }, async (req, username, password, done) => {
 
@@ -36,28 +50,36 @@ const initializePassport = () => {
             return done("Error on trying to find user" + error);
         }
     }));
-    passport.use("login", new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
+    passport.use("jwt",new JWTStrategy(jwtOptions, async (jwt_payload,done)=>{
         try {
-
-            const user = await userModel.findOne({ email: username }).lean();
-           
-            if (!user) {
-                console.error("Authentication")
-                return done(null, false)
-            }
-            const validPassword = isValidPassword(user, password);
-            console.log(validPassword)
-            if (!validPassword) {
-                console.error("Incorrect credentials")
-                return done(null, false)
-            }
-            delete user.password
-            console.log(user)
-            return done(null, user);
+            console.log(jwt_payload)
+            return done(null,jwt_payload)
         } catch (error) {
-            return done(error)
+           return done(error)
         }
-    }));
+    }))
+    // passport.use("login", new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
+    //     try {
+
+    //         const user = await userModel.findOne({ email: username }).lean();
+           
+    //         if (!user) {
+    //             console.error("Authentication")
+    //             return done(null, false)
+    //         }
+    //         const validPassword = isValidPassword(user, password);
+    //         console.log(validPassword)
+    //         if (!validPassword) {
+    //             console.error("Incorrect credentials")
+    //             return done(null, false)
+    //         }
+    //         delete user.password
+    //         console.log(user)
+    //         return done(null, user);
+    //     } catch (error) {
+    //         return done(error)
+    //     }
+    // }));
 
     passport.use("githublogin", new GithubStrategy({
         clientID,
