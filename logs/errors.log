@@ -1298,4 +1298,7 @@
 {"level":"debug","message":"POST in /api/products - 23:04:38"}
 {"level":"error","message":"Cannot add products with mongoose TypeError: Cannot read properties of undefined (reading 'email')"}
 {"level":"debug","message":"POST in /api/sessions/login - 23:04:38"}
-{"level":"debug","message":"GET in /api/sessions/current - 23:04:39"}
+{"level":"debug","message":"GET in /api/sessions/current - 23:04:39"}{"level":"info","message":"GET in / - 21:08:12"}
+{"level":"info","message":"GET in /favicon.ico - 21:08:12"}
+{"level":"info","message":"POST in /api/sessions/login - 21:08:14"}
+{"level":"info","message":"GET in /products - 21:08:14"}

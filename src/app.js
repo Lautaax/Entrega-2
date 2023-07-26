@@ -9,7 +9,6 @@ import MongoStore from "connect-mongo";
 import database from "./db.js";
 import config from "./config.js";
 import passport from "passport";
-import cookieParser from "cookie-parser"
 import initializePassport from "./auth/passport.js";
 import { winstonLogger } from "./utils/logger.js";
 import bodyParser from "body-parser";
@@ -17,6 +16,22 @@ import bodyParser from "body-parser";
 import routesFunction from "./routes/app.router.js";
 // import passport from "passport";
 // import initializePassport from "../middlewares/passport.js";
+
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUIExpress from "swagger-ui-express"
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Adopt Me API",
+      description: "Documentacíon que soporta al sistema Adopt Me",
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
 
 //Initialization
 const app = express();
@@ -76,6 +91,8 @@ database.connect();
 routesFunction(app)
 app.use(passport.initialize())
 app.use(passport.session())
+//app.use(addLogger)
+//app.use("/api-docs" , swaggerUIExpress.serve, swaggerUIExpress(specs))
 
 //socket.connect(httpServer)
 
