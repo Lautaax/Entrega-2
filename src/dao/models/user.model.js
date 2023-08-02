@@ -11,6 +11,14 @@ const userSchema = new mongoose.Schema({
   role:String,
   resetToken:String,
   tokenExpiration:Date,
+  documents:[
+    {
+      name:String,
+      reference:String,
+    }
+  ],
+  last_connection:Date,
+  status: Array,
   cart: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "carts",

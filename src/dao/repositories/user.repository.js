@@ -7,7 +7,7 @@ class UserRepository {
 
     findWithMail = async (email) => {
         try {
-            return await this.model.findOne({email: email});
+            return await this.model.findOne(email);
         } catch (error) {
             console.log(error)
         }
@@ -37,10 +37,10 @@ class UserRepository {
         }
     }
 
-    updateUser = async (user) => {
+    updateUser = async (user,updates) => {
         try {
             
-            return await this.model.updateOne({_id: user._id},user);
+            return await this.model.updateOne(user,updates);
         } catch (error) {
              console.log(error)
         }

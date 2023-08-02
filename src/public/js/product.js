@@ -1,7 +1,10 @@
 const logout= document.getElementById("logout")
 const formButton= document.getElementById('botonForm');
-let cId=document.getElementById("cid").value
+let cId=document.getElementById("cid").value;
+
 let pId=document.getElementById('pid').value;
+alert(cId)
+alert(pId)
 // addToCart.forEach((form) => {
 const home=document.getElementById("home");
   formButton.addEventListener("click", (e) => {

@@ -1,6 +1,6 @@
 import express from "express";
 import handlebars from 'express-handlebars'
-import __dirname from "./dirname.js";
+import __dirname, { uploader}  from "./dirname.js";
 
 import cookieParser from "cookie-parser";
 import morgan from "morgan"
@@ -9,6 +9,7 @@ import MongoStore from "connect-mongo";
 import database from "./db.js";
 import config from "./config.js";
 import passport from "passport";
+
 import initializePassport from "./auth/passport.js";
 import { winstonLogger } from "./utils/logger.js";
 import bodyParser from "body-parser";
