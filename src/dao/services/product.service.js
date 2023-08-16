@@ -2,6 +2,7 @@ import { productsRepository } from "../repositories/product.repository.js";
 import ErrorCode from "./errors/enum.errors.js";
 import CustomError from "./errors/errors.service.js";
 import { addProductErrorInfo } from "./errors/info.js";
+
 class ProductsService {
     constructor() {
         this.productsRepository = productsRepository
@@ -79,11 +80,11 @@ class ProductsService {
     }
     deleteProduct=async(pid)=>{
         try {
-            const existingProduct = await this.productsRepository.getProductsbyId(pid);
+            const existingProduct = await this.productsRepository.getProductsbyId({_id:pid});
             if (!existingProduct) {
                 return { error: `The product with this ID does not exists.` };
             }
-            return this.productsRepository.deleteProduct(pid)
+            return this.productsRepository.deleteProduct({_id:pid})
         } catch (error) {
             console.log(error)
         }

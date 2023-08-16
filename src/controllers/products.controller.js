@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { productService } from "../dao/services/product.service.js";
 import { userService } from "../dao/services/user.service.js";
+import { sendEmailtouser } from "./mail.controller.js";
 export async function getAll(req, res) {
     try {
         const productsAll = await productService.getAllproducts()
@@ -58,10 +59,6 @@ export async function getProductsbyId(req, res) {
 export async function addProducts(req, res) {
     try {
         let product = req.body;
-
-
-        let userVal = req.session.user;
-
         const filesToUpdate = req.files
         product.thumbnails = [];
         // console.log(userVal)
@@ -73,7 +70,7 @@ export async function addProducts(req, res) {
         //     } else {
         //         product.owner = val.email
         //     }
-           
+
         //     if (!createProduct || typeof createProduct === "string") {
 
         //         return res
@@ -88,10 +85,10 @@ export async function addProducts(req, res) {
         if (filesToUpdate) {
 
             filesToUpdate.forEach(files => {
-                const imgUrlUpdate = `http://localhost:8080/images/${files.filename}`;
+                const imgUrlUpdate = `http://localhost:8080/thumbnails/${files.filename}`;
 
                 product.thumbnails.push(imgUrlUpdate)
-                
+
             });
         }
         console.log(product)
@@ -110,10 +107,10 @@ export async function addProducts(req, res) {
 }
 export async function updateProducts(req, res) {
     try {
-        let userVal = req.session.user;
+        let userVal = req.user;
         console.log(req.user)
         let val = await userService.findbyuserid(userVal._id)
-        let id= await getIdofadminoruser(val)
+        let id = await getIdofadminoruser(val)
         console.log(id)
         const product = req.body;
         const result = await productService.updateProduct(product, id);
@@ -124,7 +121,7 @@ export async function updateProducts(req, res) {
 
         return res.send({ status: "product successfully updated", payload: result });
     } catch (error) {
-    console.log(error)
+        console.log(error)
         // req.logger.error(`Cannot update products with mongoose ${error}`);
         // return res.status(500).send({
         //     status: "error",
@@ -132,25 +129,56 @@ export async function updateProducts(req, res) {
         // });
     }
 }
-export async function deleteProducts(req,res) {
+export async function deleteProducts(req, res) {
     try {
-
+        let idprod = req.params.pid
+        console.log(idprod)
         let userVal = req.user;
-        let val = await userService.findbyuserid(userVal._id)
-       let id= await getIdofadminoruser(val)
-        let result = await productService.deleteProduct(id);
+        let result; 
+        let resul
+        console.log(userVal)
+        let val = await userService.findbyuserid({ _id: userVal._id })
+        console.log(val.role)
 
-        if (!result) {
-            req.logger.error(`The product with the id ${pid} cannot be deleted`)
-            return res.status(404).send({
-                status: "error",
-                error: "Could not delete this product. No products founded with this ID in the database",
-            });
+
+
+        //    let prod = await productService.getProductsbyitsId({ owner: val.email })
+        // console.log(prod)
+
+        if (val.role === "admin") {
+            
+           
+          resul = await productService.deleteProduct(idprod);
+           result = await sendEmailtouser(val.email)
+        } else {
+            let prod = await productService.getProductsbyitsId({ owner: val.email })
+
+            if (prod !== null ) {
+                resul = await productService.deleteProduct(idprod);
+                await sendEmailtouser(val)
+            } else {
+                return res.status(500).send({
+                    status: "error",
+                    error: "You can't eliminate this product because you are not the owner",
+                });
+            }
         }
-       return res.send({ status: "Product successfully eliminated", payload: result});
+
+
+
+        // let result = await productService.deleteProduct(id);
+
+        // if (!resul) {
+        //     req.logger.error(`The product with the id ${pid} cannot be deleted`)
+        //     return res.status(404).send({
+        //         status: "error",
+        //         error: "Could not delete this product. No products founded with this ID in the database",
+        //     });
+        // }
+        return res.send({ status: "Product successfully eliminated", payload: resul});
     } catch (error) {
-      
-        req.logger.error(`Cannot delete products with mongoose ${error}`);
+        console.log(error)
+       // req.logger.error(`Cannot delete products with mongoose ${error}`);
         return res.status(500).send({
             status: "error",
             error: "Failed to delete products",
@@ -158,8 +186,8 @@ export async function deleteProducts(req,res) {
     }
 }
 
-async function getIdofadminoruser(val){
-    let pid=""
+async function getIdofadminoruser(val) {
+    let pid = ""
     if (val.role === "admin") {
         pid = new mongoose.Types.ObjectId(req.params.pid);
     } else {

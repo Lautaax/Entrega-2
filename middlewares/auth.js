@@ -1,23 +1,63 @@
+import config from "../src/config.js";
+import jwt from "jsonwebtoken"
 
+import { userService } from "../src/dao/services/user.service.js";
+
+import CustomError from "../src/dao/services/errors/errors.service.js";
+const { jwtSecret } = config
 function roladm(req, res, next) {
-
-  if (req.session.user.role === "user" && req.session.user.role !== undefined) {
-    return res.status(401).send({ status: 'Error', error: "You cannot access to this place" });
+  
+  if (req.user.role === "user" && req.user.role !== undefined) {
+    return res.render("erroraccess")
+    //return res.status(401).send({ status: 'Error', error: "You cannot access to this place" });
   } else {
     next();
   }
 }
-function createProductpremium(req,res,next){
-  console.log(req.session.user.role)
-  if(req.session.user.role==="premium" || req.session.user.role==="admin"){
-    next();
-  }else{
+function authorize(roles) {
+  // const token = req.cookies.jwtCookie
 
-    return res.status(401).send({ status: 'Error', error: "You cannot create a product" });
-  }
+  // if (!token) {
+  //   return res.status(401).send({ status: 'Error', error: "You cannot access to this place" });
+  // }
+
+  // const { role } = jwt.verify(token, jwtSecret)
+  // console.log(role)
+  
+  // if (!rolesToVerify.includes(role)) {
+  //   return res.status(403).send({ status: 'Error', error: "You cannot access to this place" });
+  // }
+
+  // next()
+
+    return async (req, res, next) => {
+        const token = req.cookies.jwtCookie;
+
+        if (!token) {
+          return res.status(401).send({ status: 'Error', error: "You cannot access to this place" });
+        }
+
+        try {
+            const decodedToken = jwt.verify(token, jwtSecret);
+            const currentUser = await userService.findbyuserid({_id:decodedToken.id});
+            const hasPermission = roles.some(role => currentUser.role === role);
+
+            if (!hasPermission) {
+              return res.status(403).send({ status: 'Error', error: "You cannot access to this place" });
+            }
+
+            req.user = currentUser;
+
+            next();
+        } catch (error) {
+          return res.status(401).send({ status: 'Error', error: "You cannot access to this place" });
+        }
+    };
+
+
 }
 function roluser(req, res, next) {
-  if (req.session.user.role === "admin") {
+  if (req.user.role === "admin") {
     return res.status(401).send({ status: 'Error', error: "You cannot access to this place" });
   } else {
     next();
@@ -25,7 +65,7 @@ function roluser(req, res, next) {
 }
 function checkLogin(req, res, next) {
 
-  if (!req.session.user) {
+  if (!req.user) {
     return res.redirect("/");
 
   }
@@ -33,8 +73,8 @@ function checkLogin(req, res, next) {
 }
 
 function checkLogged(req, res, next) {
-  if (req.session.user) return res.redirect("/products");
+  if (req.user) return res.redirect("/products");
   next();
 }
 
-export { checkLogged, createProductpremium,checkLogin, roladm, roluser };
+export { checkLogged, authorize, checkLogin, roladm, roluser };

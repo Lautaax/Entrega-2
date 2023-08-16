@@ -4,6 +4,13 @@ class UserRepository {
     constructor(){
         this.model = userModel;
     }
+    getallUsers = async () => {
+        try {
+            return this.model.find();
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     findWithMail = async (email) => {
         try {
@@ -54,6 +61,30 @@ class UserRepository {
             console.log(error)
         }
     }
+    deleteUserByCartId = async (cartId) => {
+        try {
+          const deletedUser = await userModel.deleteOne({ cart: cartId })
+          return deletedUser
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    deleteUser = async (userId) => {
+        try {
+          const deletedUser = await userModel.deleteOne({ _id: userId })
+          return deletedUser
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    deleteInactiveUsers = async (users) => {
+        try {
+          const deletedUser = await userModel.deleteMany({ cart: { $in: users } })
+          return deletedUser
+        } catch (error) {
+          console.log(error)
+        }
+      }
 }
 
 

@@ -8,11 +8,15 @@ const userSchema = new mongoose.Schema({
   email: String,
   age: Number,
   password: String,
-  role:String,
+  role:{
+    type:String,
+    default:'user'
+  },
   resetToken:String,
   tokenExpiration:Date,
   documents:[
     {
+      _id: false,
       name:String,
       reference:String,
     }
@@ -23,7 +27,7 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "carts",
   },
-
+  
 });
 
 const userModel = mongoose.model(userCollection, userSchema);

@@ -1,7 +1,18 @@
 import { userRepository } from "../repositories/user.repository.js";
+import jwt from "jsonwebtoken"
+import config from "../../config.js";
+
+const { jwtSecret } = config
 class UserService {
   constructor() {
     this.userRepository = userRepository
+  }
+  getallUsers = async () => {
+    try {
+      return await this.userRepository.getallUsers();
+    } catch (error) {
+      console.log(error)
+    }
   }
   findWiththemail = async (email) => {
     try {
@@ -101,9 +112,9 @@ class UserService {
       throw error
     }
   }
-  async changeRole (uid) {
+  async changeRole(uid) {
     try {
-      const requiredStatus = ['identification', 'address', 'statement']
+      const requireStatus = ['identification', 'address', 'statement']
       const user = await userRepository.findById({ _id: uid })
 
       let missingStatus = []
@@ -112,10 +123,10 @@ class UserService {
       if (!user) {
         const user = await userRepository.findByCartId(uid)
         const userStatus = user.status
+        let role = ""
+        missingStatus = requireStatus.filter((el) => !userStatus.includes(el))
 
-        missingStatus = requiredStatus.filter((el) => !userStatus.includes(el))
-
-        if (requiredStatus.every((el) => userStatus.includes(el)) || user.role === 'premium') {
+        if (requireStatus.every((el) => userStatus.includes(el)) || user.role === 'premium') {
           const role = user.role === 'user' ? 'premium' : 'user'
 
           roleChanged = await userRepository.updateUser(
@@ -123,22 +134,26 @@ class UserService {
             { role }
           )
         } else {
-          throw new Error(`You're missing documents to upgrade your role: ${missingStatus.join(', ')}`)
+          throw new Error(`You're missing documents to change your role: ${missingStatus.join(', ')}`)
         }
       } else {
         const userStatus = user.status
 
-        missingStatus = requiredStatus.filter((el) => !userStatus.includes(el))
+        missingStatus = requireStatus.filter((el) => !userStatus.includes(el))
 
-        if (requiredStatus.every((el) => userStatus.includes(el)) || user.role === 'premium') {
-          const role = user.role === 'user' ? 'premium' : 'user'
+        if (requireStatus.every((el) => userStatus.includes(el)) || user.role === 'premium') {
+          if (user.role === 'user') {
+            role = 'premium'
+          } else {
+            role = 'user'
+          }
 
           roleChanged = await userRepository.updateUser(
             { _id: uid },
             { role }
           )
         } else {
-          throw new Error(`You're missing the following documentantion to upgrade your role: ${missingStatus.join(', ')}`)
+          throw new Error(`You're missing documentantion to change your role: ${missingStatus.join(', ')}`)
         }
       }
 
@@ -150,13 +165,13 @@ class UserService {
       throw error
     }
   }
-  updateConnection (email) {
+  updateConnection(email) {
     try {
       const connectionupd = userRepository.updateUser(
-        { email:email },
+        { email: email },
         { last_connection: new Date() }
       )
-      if (!connection_updated) throw new Error('Error updating user last connection')
+      if (!connectionupd) throw new Error('Error updating user last connection')
 
       return connectionupd
     } catch (error) {
@@ -164,11 +179,21 @@ class UserService {
       throw error
     }
   }
-  
-  async updateProfile (email, profilePicture) {
+  async decodeUser(token) {
+    try {
+      const decodedToken = jwt.verify(token, jwtSecret, {
+        ignoreExpiration: true
+      })
+      return decodedToken
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async updateProfile(email, profilePicture) {
     try {
       const newUserDocuments = []
-      const { documents } = await usersRepository.getUser({ email })
+      const { documents } = await userRepository.findById({ email })
 
       const documentUser = {
         name: profilePicture.fieldname,
@@ -195,6 +220,62 @@ class UserService {
       throw error
     }
   }
+  async deleteUser (uid) {
+    try {
+      const deletedUser = await userRepository.deleteUser(uid)
+      if (!deletedUser) throw new Error(`Error deleting user ${uid}`)
+
+      return deletedUser
+    } catch (error) {
+      throw error
+    }
+  }
+  async deleteUserByCartId (cid) {
+    try {
+      const deletedUser = await userRepository.deleteUserByCartId(cid)
+      if (!deletedUser) throw new Error(`Error deleting user ${cid}`)
+
+      return deletedUser
+    } catch (error) {
+      throw error
+    }
+  }
+  async deleteInactiveUsers(users) {
+    try {
+      const twoDays = 2 * 24 * 60 * 60 * 1000
+      const currentTime = new Date()
+
+      // Evaluar los usuarios inactivos
+      const inactiveUsers = users.filter((user) => {
+        const lastConnection = new Date(user.last_connection)
+        const timeDiff = currentTime - lastConnection
+        return timeDiff > twoDays
+      })
+
+      if (inactiveUsers.length === 0) throw new Error('No inactive users were found')
+
+      const inactiveUserIds = inactiveUsers.map((user) => user.cart)
+
+      const deletedUsers = await userRepository.deleteInactiveUsers(inactiveUserIds)
+
+      inactiveUsers.forEach(async (user) => {
+        const mail = {
+          to: user.email,
+          subject: 'Informatic supplies - Account Deletion Notification',
+          html: emailTemplates.accountDeletionEmail(user.name, user.email)
+        }
+        await this.mailService.sendEmail(mail)
+      })
+
+      if (!deletedUsers) throw new Error(`Error deleting user ${uid}`)
+
+      return deletedUsers
+    } catch (error) {
+      throw error
+    }
+  }
+
+
 }
 
 export const userService = new UserService()

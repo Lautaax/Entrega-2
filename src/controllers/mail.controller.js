@@ -21,6 +21,44 @@ const transport = nodemailer.createTransport({
         rejectUnauthorized: false
     }
 })
+
+sendEmail = async ({ to, subject, html, attachments = [] }) => {
+    try {
+      const sentEmail = await this.transport.sendMail({
+        from: `informatic supplies ${user}`,
+        to,
+        subject,
+        html,
+        attachments
+      })
+      if (!sentEmail) throw new Error('Email send failure')
+
+      return sentEmail
+    } catch (error) {
+      console.log(`Failed to send email with error: ${error}`)
+    }
+  }
+export async function sendEmailtouser(email){
+
+    let result = await transport.sendMail({
+        from: user,
+        to: email,
+        subject: "Product deletion",
+        html: `
+      <p>The product was eliminated<p>
+        `,
+        attachments: [{
+            filename: '14360092_321312491563922_4116234985050996736_n.jpg',
+            path: `${__dirname}/public/thumbnails/1681689464000-Micro-Procesador-Ryzen-5-4500-6-Nucleos-4.1ghz-Amd-Ddr4.png`,
+         
+        }]
+    })
+    if (!result) {
+        throw new Error('Email send failure')
+    }
+    return result
+
+}
 export async function sendEmail(req, res) {
     const { email } = req.body
 
@@ -37,14 +75,14 @@ export async function sendEmail(req, res) {
     let result = await transport.sendMail({
         from: user,
         to: email,
-        subject: "Test mail",
+        subject: "Reset password",
         html: `
-        <a href=${resetUrl}><button>send</button></a>
+        <a href=${resetUrl}><button>Reset password</button></a>
         `,
         attachments: [{
             filename: '14360092_321312491563922_4116234985050996736_n.jpg',
-            path: `${__dirname}/public/images/1681689464000-Micro-Procesador-Ryzen-5-4500-6-Nucleos-4.1ghz-Amd-Ddr4.png`,
-            cid: 'hola1'
+            path: `${__dirname}/public/thumbnails/1681689464000-Micro-Procesador-Ryzen-5-4500-6-Nucleos-4.1ghz-Amd-Ddr4.png`,
+   
         }]
     })
     if (!result) {
@@ -53,7 +91,7 @@ export async function sendEmail(req, res) {
             error: "Failed to send the email",
         });
     }
-    // res.send({ status: "success", result: "mail sent" })
+
     return res.send({ status: "success", result: userac })
 }
 export async function resetPassword(req, res) {
@@ -69,16 +107,13 @@ export async function resetPassword(req, res) {
     const user= await userService.findbyuserid({ email });
 
     if (!user || user.resetToken !== token || user.tokenExpiration < Date.now()) {
-        // Token inválido o expirado, manejo del error
-        //console.log("no es valido link ");
-        //return res.redirect('/');
+
         return res.send({ status: "novalidolink", result: "link expiro" });
     }
 
     if (!isValidPassword(user, password)) {
 
 
-        // Actualizar la contraseña del usuario y borrar el token y la fecha de expiración
         user.password = createHash(password);
         user.resetToken = undefined;
         user.tokenExpiration = undefined;
@@ -88,7 +123,7 @@ export async function resetPassword(req, res) {
         return res.send({ status: "success", result: userac });
     }
     else {
-        //console.log("no puede guardar la misma password ");
+
         return res.send({ status: "error", result: "no puede guardar la misma password " });
 
     }

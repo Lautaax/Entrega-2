@@ -58,28 +58,7 @@ const initializePassport = () => {
            return done(error)
         }
     }))
-    // passport.use("login", new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
-    //     try {
 
-    //         const user = await userModel.findOne({ email: username }).lean();
-           
-    //         if (!user) {
-    //             console.error("Authentication")
-    //             return done(null, false)
-    //         }
-    //         const validPassword = isValidPassword(user, password);
-    //         console.log(validPassword)
-    //         if (!validPassword) {
-    //             console.error("Incorrect credentials")
-    //             return done(null, false)
-    //         }
-    //         delete user.password
-    //         console.log(user)
-    //         return done(null, user);
-    //     } catch (error) {
-    //         return done(error)
-    //     }
-    // }));
 
     passport.use("githublogin", new GithubStrategy({
         clientID,
@@ -91,6 +70,10 @@ const initializePassport = () => {
             let user = await userModel.findOne({ email: profile._json.email }).lean()
 
             if (user.email === "adminCoder@coder.com") {
+                user.role = "admin"
+           
+            }
+            else if (user.email === "lautaa_97@outlook.com") {
                 user.role = "admin"
             } else {
                 user.role = "user"

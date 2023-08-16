@@ -7,7 +7,7 @@ import __dirname from '../dirname.js';
 import config from "../config.js";
 import jwt from "jsonwebtoken"
 export async function getViewProducts(req,res){
-    let valor;
+
     
 
     const { limit = 2, page = 1, category, usable, sort } = req.query;
@@ -38,10 +38,6 @@ export async function getProductwithitsid(req,res){
     const { pid } = req.params;
     console.log(req.user)
     const product = await productService.getProductsbyitsId(pid);
-    
-    // var decoded = jwt.decode(token, secret);
-    // console.log(decoded); //=> { foo: 'bar' }
-
     res.render("product", {
       user:req.user,
 
@@ -89,6 +85,9 @@ export function loginView(req,res){
 export function registerView(req,res){
     return res.render("register");
 }
+export function getAdminview(req,res){
+  return res.render("admin")
+}
 export function formproducts(req,res){
   return res.render("form-products")
 }
@@ -112,7 +111,6 @@ export const chatView = async (req, res) => {
       });
     }
   } catch (error) {
-console.log(error)
     res
       .status(500)
       .send({ status: "error", error: "Failed to render chat view" });

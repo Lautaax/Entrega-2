@@ -41,7 +41,7 @@ class ProductsRepository {
   
     getProductsbyId=async (pid)=>{
         try {
-            return this.productModel.findOne({_id:pid}).lean()
+            return this.productModel.findOne(pid).lean()
         } catch (error) {
             console.log(error);
         }

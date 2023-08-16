@@ -62,8 +62,7 @@ app.use(
 
 initializePassport()
 app.use(passport.initialize())
-app.use(passport.session())
-app.use(cookieParser());
+//productServer.use(passport.session())
 routesFunction(app)
 //View engine
 app.engine("handlebars", handlebars.engine());
