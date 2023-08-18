@@ -1336,3 +1336,32 @@
 {"level":"debug","message":"GET in /socket.io/socket.io.js - 20:08:33"}
 {"level":"debug","message":"GET in /chat - 20:10:13"}
 {"level":"debug","message":"GET in /socket.io/socket.io.js - 20:10:14"}
+{"level":"debug","message":"GET in / - 20:12:38"}
+{"level":"debug","message":"POST in /api/sessions/login - 20:12:40"}
+{"level":"debug","message":"GET in /products - 20:12:41"}
+{"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/64399f6b16208f147583f8c9 - 20:12:45"}
+{"level":"error","message":"Cannot add products to the cart with mongoose TypeError: Cannot read properties of undefined (reading 'owner')"}
+{"level":"debug","message":"GET in /cart/64a2c82cae1f1451f74575fc - 20:12:48"}
+{"level":"debug","message":"GET in /product/64399f6b16208f147583f8c9 - 20:12:57"}
+{"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/style=%22display:none%22 - 20:13:05"}
+{"level":"error","message":"Cannot add products to the cart with mongoose TypeError: Cannot read properties of undefined (reading 'owner')"}
+{"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/style=%22display:none%22 - 20:15:10"}
+{"level":"debug","message":"GET in /product/64399f6b16208f147583f8c9 - 20:15:11"}
+{"level":"error","message":"Cannot add products to the cart with mongoose TypeError: Cannot read properties of undefined (reading 'owner')"}
+{"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/style=%22display:none%22 - 20:24:55"}
+{"level":"error","message":"Cannot add products to the cart with mongoose TypeError: Cannot read properties of undefined (reading 'owner')"}
+{"level":"debug","message":"GET in / - 20:26:28"}
+{"level":"debug","message":"POST in /api/sessions/login - 20:26:30"}
+{"level":"debug","message":"GET in /products - 20:26:30"}
+{"level":"debug","message":"GET in /cart/64a2c82cae1f1451f74575fc - 20:26:43"}
+{"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/64399f6b16208f147583f8c9 - 20:26:50"}
+{"level":"error","message":"Cannot add products to the cart with mongoose TypeError: Cannot read properties of undefined (reading 'owner')"}
+{"level":"debug","message":"GET in /cart/64a2c82cae1f1451f74575fc - 20:27:01"}
+{"level":"debug","message":"POST in /api/carts/64a2c82cae1f1451f74575fc/product/64399f6b16208f147583f8ca - 20:27:16"}
+{"level":"error","message":"Cannot add products to the cart with mongoose TypeError: Cannot read properties of undefined (reading 'owner')"}
+{"level":"debug","message":"GET in /product/64399f6b16208f147583f8ca - 20:27:20"}
+{"level":"debug","message":"GET in /product/64399f6b16208f147583f8ca - 20:27:44"}
+{"level":"debug","message":"GET in /product/64399f6b16208f147583f8ca - 20:28:23"}
+{"level":"debug","message":"GET in /product/64399f6b16208f147583f8ca - 20:29:05"}
+{"level":"debug","message":"GET in /product/64399f6b16208f147583f8ca - 20:29:37"}
+{"level":"debug","message":"GET in /product/64399f6b16208f147583f8ca - 20:29:47"}
