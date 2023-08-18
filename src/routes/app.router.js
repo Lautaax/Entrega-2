@@ -12,7 +12,7 @@ import { authToken } from "../utilsjwt.js";
 import __dirname from "../dirname.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
-
+import paymentRouter from "./payment.router.js"
 const swaggerOptions = {
   definition: {
     openapi: "3.0.1",
@@ -42,7 +42,7 @@ const routesFunction = (productServer) => {
   productServer.use("/get",authToken,(req,res)=>{
     res.send({status:"success",payload: req.user})
   })
-
+  productServer.use('/api/payments', paymentRouter)
 };
 
 export default routesFunction;

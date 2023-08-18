@@ -1,11 +1,19 @@
-import { cartRepository } from "../repositories/cart.repository.js";
+import { cartRepository } from "../repositories/index.js";
 import ErrorCode from "./errors/enum.errors.js";
 import CustomError from "./errors/errors.service.js";
 import { CartErrorInfo } from "./errors/info.js";
-class CartService {
+export default class CartService {
     constructor() {
         this.cartRepository = cartRepository;
     }
+    createCart=async()=>{
+        try {
+            return this.cartRepository.createCart()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     getCarts = async () => {
         try {
             return this.cartRepository.getCarts();
@@ -133,4 +141,3 @@ class CartService {
         }
     }
 }
-export const cartService = new CartService();

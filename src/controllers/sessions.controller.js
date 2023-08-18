@@ -1,6 +1,6 @@
 import CurrentUserDto from "../dao/dtos/current-user-dto.js";
-import { generateToken } from "../utilsjwt.js";
-import { userService } from "../dao/services/user.service.js";
+
+import { userService } from "../dao/services/index.js";
 import { isValidPassword } from "../utils.js";
 import config from "../config.js";
 import jwt from "jsonwebtoken";
@@ -17,11 +17,11 @@ export async function loginUser(req, res) {
   const user = await userService.findWiththemail({ email: email })
   if (!user) return res.status(401).send({ status: "error", error: "User does not exist" })
   if (!isValidPassword(user, password)) return res.status(401).send({ status: "error", error: "Invalid credentials" })
-  if (user.email === "adminCoder@coder.com") {
-    user.role = "admin"
-  } else {
-    user.role = "user"
-  }
+  // if (user.email === "adminCoder@coder.com") {
+  //   user.role = "admin"
+  // } else {
+  //   user.role = "user"
+  // }
   const jwtUser = {
     id: user._id,
     first_name: user.first_name,
@@ -62,14 +62,14 @@ export async function Logout(req, res) {
   const { jwtCookie: token } = req.cookies
   const { email } = await userService.decodeUser(token)
   const last_connection = await userService.updateConnection(email)
-  
+
   if (!last_connection) {
     req.logger.error('Failed to update last connection')
     return res
       .status(500)
       .send({ status: 'error', error: 'Failed to update last connection' })
   }
-  console.log(last_connection)
+
   return res.clearCookie("jwtCookie").send({ status: "sucess", message: "Log out sucessfull" })
 }
 export function failLogin(req, res) {
@@ -77,8 +77,8 @@ export function failLogin(req, res) {
 }
 export function getcurrentUser(req, res) {
 
-  console.log(req.user)
+
   const userDto = new CurrentUserDto(req.user);
-  console.log(userDto)
+
   return res.send({ status: "success", payload: userDto })
 }

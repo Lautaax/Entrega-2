@@ -18,6 +18,9 @@ const config ={
     callbackUrl:process.env.CALLBACK_URL,
     mode:process.env.DEVELOPMENT_MODE,
     jwtSecret: process.env.JWT_SECRET,
-    loggermode:process.env.LOGGER
+    loggermode:process.env.LOGGER,
+    adminPass:process.env.ADMIN_PASSWORD,
+    cookieName:process.env.COOKIE_NAME,
+    stripeSecret:process.env.STRIPE_SECRET
 }
 export default config

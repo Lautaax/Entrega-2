@@ -1,6 +1,6 @@
 import express from "express";
 import handlebars from 'express-handlebars'
-import __dirname, { uploader}  from "./dirname.js";
+import __dirname from "./dirname.js";
 
 import cookieParser from "cookie-parser";
 import morgan from "morgan"
@@ -13,7 +13,8 @@ import passport from "passport";
 import initializePassport from "./auth/passport.js";
 import { winstonLogger } from "./utils/logger.js";
 import bodyParser from "body-parser";
-
+import paymentsRouter from "./routes/payment.router.js"
+import { compare } from './views/helper.js'
 import routesFunction from "./routes/app.router.js";
 // import passport from "passport";
 // import initializePassport from "../middlewares/passport.js";
@@ -38,6 +39,7 @@ const specs = swaggerJSDoc(swaggerOptions);
 const app = express();
 
 //Middlewares
+app.use("/api/payments",paymentsRouter)
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: true }));
@@ -62,14 +64,23 @@ app.use(
 
 initializePassport()
 app.use(passport.initialize())
-//productServer.use(passport.session())
+//app.use(passport.session())
 routesFunction(app)
 //View engine
-app.engine("handlebars", handlebars.engine());
+app.engine(
+  'handlebars',
+  handlebars.engine({
+    helpers: {
+      compare
+    },
+    defaultLayout: 'main'
+  })
+)
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 
 

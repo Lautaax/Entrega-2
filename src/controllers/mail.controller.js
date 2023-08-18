@@ -3,7 +3,7 @@ import { isValidPassword,createHash } from "../utils.js";
 import __dirname from "../dirname.js";
 import configMailSms from "../config/configmailsms.js";
 import config from "../config.js";
-import { userService } from "../dao/services/user.service.js";
+import { userService } from "../dao/services/index.js";
 import jwt from "jsonwebtoken";
 const {
     nodemailerConfig: { service, port, user, password },
@@ -47,11 +47,7 @@ export async function sendEmailtouser(email){
         html: `
       <p>The product was eliminated<p>
         `,
-        attachments: [{
-            filename: '14360092_321312491563922_4116234985050996736_n.jpg',
-            path: `${__dirname}/public/thumbnails/1681689464000-Micro-Procesador-Ryzen-5-4500-6-Nucleos-4.1ghz-Amd-Ddr4.png`,
-         
-        }]
+ 
     })
     if (!result) {
         throw new Error('Email send failure')
@@ -59,6 +55,24 @@ export async function sendEmailtouser(email){
     return result
 
 }
+export async function sendEmailtousersdeletedforinactivity(email){
+
+    let result = await transport.sendMail({
+        from: `Informatic supplies ${user}`,
+        to: email,
+        subject: "Notification",
+        html: `
+      <p>Your account has been deleted for inactivity<p>
+        `,
+ 
+    })
+    if (!result) {
+        throw new Error('Email send failure')
+    }
+    return result
+
+}
+
 export async function sendEmail(req, res) {
     const { email } = req.body
 
@@ -91,7 +105,7 @@ export async function sendEmail(req, res) {
             error: "Failed to send the email",
         });
     }
-
+    // res.send({ status: "success", result: "mail sent" })
     return res.send({ status: "success", result: userac })
 }
 export async function resetPassword(req, res) {
@@ -107,13 +121,14 @@ export async function resetPassword(req, res) {
     const user= await userService.findbyuserid({ email });
 
     if (!user || user.resetToken !== token || user.tokenExpiration < Date.now()) {
-
-        return res.send({ status: "novalidolink", result: "link expiro" });
+      
+        return res.send({ status: "link not valid", result: "link expire" });
     }
 
     if (!isValidPassword(user, password)) {
 
 
+      
         user.password = createHash(password);
         user.resetToken = undefined;
         user.tokenExpiration = undefined;
