@@ -24,25 +24,26 @@ const swaggerOptions = {
   apis: [`${__dirname}/docs/**/*.yaml`],
 };
 const specs = swaggerJSDoc(swaggerOptions);
-const routesFunction = (productServer) => {
+const routesFunction = (app) => {
   
 
-  productServer.get("/mockingproducts", mockRouter)
-  productServer.use("/recovery", mailRouter)
-  productServer.get("/sms", smsRouter)
-  productServer.use("/chat",messagesRouter);
-  productServer.use("/api/sessions", sessionsRouter);
-  //productServer.get("/loggerTest",loggerRouter)
-  productServer.use("/api/products", productsRouter);
-  productServer.get("/loggerTest", loggerRouter);
-  productServer.use("/api/carts", cartrouter);
-  productServer.use("/api/users", usersRouter)
-  productServer.use("/", viewrouter);
-   productServer.use("/apidocs",swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
-  productServer.use("/get",authToken,(req,res)=>{
+  app.get("/mockingproducts", mockRouter)
+  app.use("/recovery", mailRouter)
+  app.get("/sms", smsRouter)
+  app.use("/chat",messagesRouter);
+  app.use("/api/sessions", sessionsRouter);
+  
+  app.use("/api/products", productsRouter);
+  app.get("/loggerTest", loggerRouter);
+  app.use("/api/carts", cartrouter);
+  app.use("/api/users", usersRouter)
+  app.use("/", viewrouter);
+  app.use("/apidocs",swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+   app.use("/get",authToken,(req,res)=>{
     res.send({status:"success",payload: req.user})
   })
-  productServer.use('/api/payments', paymentRouter)
+  app .use('/api/payments', paymentRouter)
 };
 
 export default routesFunction;
+
