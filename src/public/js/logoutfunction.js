@@ -4,8 +4,8 @@ export const Logoutfunction=(logout)=>{
           method: "GET",
         }) .then(() => {
           Swal.fire({
-            title: "Logout successful!",
-            text: `Redirecting you to the login`,
+            title: "Desconexion con exito",
+            text: `Redirigiendo al incio`,
             allowOutsideClick: false,
       
             icon: "success",

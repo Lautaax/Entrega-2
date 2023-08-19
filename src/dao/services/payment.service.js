@@ -8,7 +8,7 @@ const {
 
 export default class PaymentService {
   constructor () {
-    this.stripe = new Stripe("sk_test_51Na5WnB3q7njnQ2YsNazkmj1mGTnsudXtsUTiItZnAT7t3T2Ub1Jyh9z7NaGNYbuRlvqNd2uIBEwqJwGSUafUxFz00A7zcqWz4")
+    this.stripe = new Stripe("sk_test_51Na5VlJAG8C77VQOdHjwskTarOqTpORscxLPF7n47mJ0lLGsKqXCz3uMY4XiRGw9qVxlcvnlZT5PVrIdtYafQ83S00LAuGnkYz")
   }
 
  createPaymentIntent=async (data)=>{

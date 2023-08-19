@@ -16,9 +16,9 @@ form.addEventListener("submit", async (e) => {
     },
   }).then(() => {
     Swal.fire({
-      title: "User registered",
+      title: "Usario registrado",
       toast: true,
-      position: "top-right",
+      position: "top-center",
       icon: "success",
       
     });

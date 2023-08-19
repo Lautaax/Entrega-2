@@ -59,23 +59,18 @@ export async function addProductcart(req, res) {
         let prod = await productService.getProductsbyitsId({_id:pId});
        // let user=await userService.findbyuserid({_id:req.user.id})
         console.log(prod.stock)
-        if(prod.stock === 0){
+        if(prod.stock <= 0){
             return res
                      .status(400)
-                     .send({ status: "error", error: resul });
+                     .send({ status: "error", error: "error"});
         }else{
             resul = await cartService.addProductCart(cId, pId, quantity);
         }
       
     
 
-        // if (!resul || typeof resul === "string") {
-        //     return res
-        //         .status(400)
-        //         .send({ status: "error", error: resul });
-        // }
-        // return res.send({ status: "success", payload: resul });
-           return res.send({ status: "success", payload: "paso" });
+   
+           return res.send({ status: "success", payload: resul});
 
     } catch (error) {
         

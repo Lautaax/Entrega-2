@@ -9,12 +9,12 @@ const messagesList = document.getElementById("messagesList");
 
 Swal.fire({
   icon: "info",
-  title: "Login please",
+  title: "Ingresar por favor",
   input: "text",
-  text: "Type your username!",
+  text: "Ingresar nombre!",
   confirmButtonText: "Login",
   inputValidator: (value) => {
-    return !value && "You must enter your username to enter.";
+    return !value && "Presionar enter luego de ingresar nombre.";
   },
   allowOutsideClick: false,
   customClass: {
@@ -30,8 +30,8 @@ Swal.fire({
   socket.emit("user-auth", user);
   Swal.fire({
     icon: "success",
-    title: `Welcome ${user}!`,
-    confirmButtonText: "Thanks!",
+    title: `Bienvenido ${user}!`,
+    confirmButtonText: "Gracias!",
     timer: 2000,
     timerProgressBar: true,
     customClass: {
@@ -94,10 +94,10 @@ socket.on("message_add", (message) => {
 
 socket.on("user-connected", (data) => {
   Swal.fire({
-    title: "New user authenticated",
-    text: `${data} has joined the chat`,
+    title: "Nuevo Usuario",
+    text: `${data} Ingreso al chat`,
     toast: true,
-    position: "top-right",
+    position: "top-center",
     icon: "success",
     customClass: {
       popup: "!text-slate-200 !bg-slate-800/90 !rounded-3xl",

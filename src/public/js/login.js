@@ -1,6 +1,7 @@
 const form = document.getElementById("login");
 const inputEmail=document.getElementById("email");
 const inputPass=document.getElementById("password");
+const githubBtn = document.getElementById('githubBtn')
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -9,6 +10,7 @@ form.addEventListener("submit", async (e) => {
 
   data.forEach((value, key) => (obj[key] = value));
 
+  
   let response = await fetch("/api/sessions/login", {
     method: "POST",
     body: JSON.stringify(obj),
@@ -20,8 +22,8 @@ form.addEventListener("submit", async (e) => {
 
   if(response.ok){
     Swal.fire({
-      title: 'You have logued successfully!',
-      text: `Welcome!`,
+      title: 'A ingresado con exito',
+      text: `Bienvenido`,
       allowOutsideClick: false,
       icon: 'success',
 
@@ -34,10 +36,22 @@ form.addEventListener("submit", async (e) => {
 
   }else{
     Swal.fire({
-      title: "Password incorrect",
+      title: "Contraseña incorrecta",
       toast: true,
-      position: "top-right",
+      position: "top-center",
       icon: "error",
     });
   }
 });
+githubBtn.addEventListener('click', (e) => {
+  if (e.target.matches('#githubBtn')) {
+    Swal.fire({
+      title: 'Espere.',
+      text: 'Un momento',
+      allowOutsideClick: false,
+      icon: 'info',
+      timer: 3000,
+      timerProgressBar: true
+    })
+  }
+})

@@ -25,8 +25,14 @@ export async function updateFunctionuser(req, res) {
         user = await userService.updateFunction(user_Id, { role: "user" })
 
       }
-    
+      // result = await userService.updateFunction(user_Id, user);
     }
+
+    // if (!result) {
+    //    req.logger.error(`The user with the id ${pid} cannot be update his function`);
+    //     return res.send({ status: "error", error: "Incomplete values" });
+    // }
+ 
     return res.send({ status: "user successfully updated", payload: user});
   } catch (error) {
     console.log(error)
@@ -153,7 +159,7 @@ export async function updateUserDocuments(req, res) {
   } catch (error) {
     console.log(error)
   
-  req.logger.error(`Cannot update user documents with error: ${error}`)
+    // req.logger.error(`Cannot update user documents with error: ${error}`)
     return res.status(500).send({
       status: 'error',
       error: 'Failed to update user documents and status'

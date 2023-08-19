@@ -21,10 +21,10 @@ deleteUserButtons.forEach((button) => {
 
       if (response.ok) {
         Swal.fire({
-          title: 'User successfully deleted!',
-          text: `User name ${userName}`,
+          title: 'Usuario eliminado',
+          text: ` ${userName}`,
           toast: true,
-          position: 'top-right',
+          position: 'top-center',
           icon: 'success',
           timer: 3000,
           footer: 'Reloading page on close',
@@ -40,7 +40,7 @@ deleteUserButtons.forEach((button) => {
     } catch ({ error }) {
       Swal.fire({
         title: 'Error!',
-        html: `<p>There is something wrong when your request</p>`,
+        html: `<p>Error por favor reintentar</p>`,
         icon: 'error',
         timer: 4000,
         footer: 'Reloading page on close',
@@ -64,10 +64,10 @@ changeuserButtons.forEach((button) => {
 
       if (response.ok) {
         Swal.fire({
-          title: 'User successfully changed role!',
-          text: `User name `,
+          title: 'Rol cambiado con exito ',
+          text: ` `,
           toast: true,
-          position: 'top-right',
+          position: 'top-center',
           icon: 'success',
           timer: 3000,
           footer: 'Reloading page on close',
@@ -83,7 +83,7 @@ changeuserButtons.forEach((button) => {
     } catch ({ error }) {
       Swal.fire({
         title: 'Error!',
-        html: `<p>There is something wrong when your request</p>`,
+        html: `<p>Error por favor reintentar</p>`,
         icon: 'error',
         timer: 4000,
         footer: 'Reloading page on close',

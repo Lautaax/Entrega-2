@@ -15,12 +15,11 @@ Swal.fire({
 const list = document.getElementById("listproducts")
 const imagelist = document.getElementById("imageproducts")
 socket.on("products", (products) => {
-    // productList.innerHTML+=products // let showProducts = ""
  
        let listProducts = "";
     products.forEach((prod) => {
      
-        listProducts += `<br>`+`-`+`The product ${prod.title} with the code ${prod.code} with a description ${prod.description} and the price of that product is ${prod.price}`;
+        listProducts += `<br>`+`-`+`El producto ${prod.title} codigo ${prod.code} con descripcion ${prod.description} y el precio ${prod.price}`;
     });
     list.innerHTML = `${listProducts}`
 
@@ -33,3 +32,4 @@ socket.on("products", (products) => {
     })
  
 });
+

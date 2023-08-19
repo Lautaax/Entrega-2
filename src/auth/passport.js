@@ -55,7 +55,7 @@ const initializePassport = () => {
     }));
     passport.use("jwt",new JWTStrategy(jwtOptions, async (jwt_payload,done)=>{
         try {
-       
+          
             return done(null,jwt_payload)
         } catch (error) {
            return done(error)

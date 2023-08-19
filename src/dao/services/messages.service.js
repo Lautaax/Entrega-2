@@ -1,26 +1,18 @@
-import { messageModel } from "../models/message.model.js";
+import { messagesRepository } from "../repositories/index.js";
 
-export default class MessagesRepository {
-  constructor() {
-    this.model = messageModel;
+export default class MessageService {
+  constructor() {}
+
+  async getMessages() {
+    try {
+      const messages = await messagesRepository.getMessages();
+      if (!messages) throw new Error("Error: No messages found");
+
+      return messages || [];
+    } catch (error) {
+      console.log(`Failed to get messages with error: ${error}`);
+      throw error;
+    }
   }
-
-  getMessages = async () => {
-    try {
-      const messages = await this.model.find().lean();
-      return messages;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  createMessage = async (message) => {
-    try {
-      const createdMessage = await this.model.create(message);
-      socket.io.emit("message_add", createdMessage);
-      return createdMessage;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 }
+

@@ -1,5 +1,5 @@
 
-export const addProductErrorInfo = (product) => {
+  export const addProductErrorInfo = (product) => {
     return `One or more properties were incomplete or invalid:
     * title: required String, received ${product.title}
     * description: required String, received ${product.description}

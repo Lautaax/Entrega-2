@@ -15,17 +15,17 @@ addProductForm.addEventListener("submit", async (e) => {
     }).catch((error) => console.log(error));
     if (!response) {
         Swal.fire({
-            title: "Product successfully created",
+            title: "Producto creado",
             toast: true,
-            position: "top-right",
+            position: "top-center",
             icon: "success",
 
         });
     }else{
         Swal.fire({
-            title: "The product cannot be created",
+            title: "Producto Mal Ingresado",
             toast: true,
-            position: "top-right",
+            position: "top-center",
             icon: "error",
         });
     }

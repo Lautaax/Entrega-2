@@ -1,25 +1,19 @@
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Informatic supplies</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="products">Home</a>
+          <a class="nav-link active" aria-current="page" href="/products">Inicio</a>
         </li>
       </ul>
-          <div><a href="/profile"><button>Profile</button></a></div>
-      <div><a href="/admin"><button>User administration</button></a></div>
-      <div><a href="cart/{{user.cart}}"><button>Show cart</button></a></div>
-      {{!-- {{#if valor}}
-         <div><a href="/form-products"><button>Product form</button></a></div>
-      {{/if}} --}}
+          <div><a href="/profile"><button>Perfil</button></a></div>
+      <div><a href="/admin"><button>Admin Panel </button></a></div>
+      <div><a href="cart/{{user.cart}}"><button>Carrito</button></a></div>
+            <div><a href="/chat"><button >Ir al chat</button></a></div>
+
       
        
-      <div><button id="logout">Log out</button></div>
+      <div><button id="logout">Salir</button></div>
     </div>
   </div>
 </nav>
@@ -27,9 +21,8 @@
 
   <h1
     class="flex p-4 mb-4 justify-center font-mono text-2xl text-slate-200"
-  >Welcome to the Chat section!</h1>
-  <h2 class="flex p-2 justify-center font-mono text-2xl text-slate-200">Time for
-    some chit-chat 😁</h2>
+  >Zona de chat</h1>
+
   <div class="w-auto mx-2">
     <br /><hr /><br />
   </div>
@@ -40,7 +33,7 @@
     <label
       for="chatBox"
       class="flex py-2 mb-2 font-mono text-lg text-slate-200"
-    >Chat here! Press enter to send a message:</label>
+    >Apretar enter para enviar mensaje</label>
     <input
       id="chatBox"
       class="p-2 block w-full border rounded-lg text-gray-400 focus:outline-none bg-gray-700 border-gray-600"
@@ -85,7 +78,7 @@
     <a href="/products">
       <button
         class="text-slate-100 bg-blue-600 hover:bg-blue-700 active:bg-blue-900 focus:ring-2 focus:outline-none focus:ring-blue-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2"
-      >Take me home! 🏚️</button>
+      >Ir al inicio</button>
     </a>
   </div>
 </div>

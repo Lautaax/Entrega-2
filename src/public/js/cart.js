@@ -72,11 +72,11 @@ removeFromCartForms.forEach((form) => {
 
       if (response.ok) {
         Swal.fire({
-          title: "Product removed from cart!",
-          text: `You removed this product from the cart`,
+          title: "Producto eliminado",
+          text: `Del carrito`,
           footer: "Reloading page in 4s",
           toast: true,
-          position: "top-right",
+          position: "top-center",
           icon: "success",
 
         });
@@ -89,7 +89,7 @@ removeFromCartForms.forEach((form) => {
     } catch ({ error }) {
       Swal.fire({
         title: 'Error!',
-        html: `<p>There is something wrong when your request</p>`,
+        html: `<p>Error por favor reintentar</p>`,
         icon: 'error',
         timer: 4000,
         footer: 'Reloading page on close',
@@ -121,8 +121,8 @@ checkoutBtn?.addEventListener('click', async (e) => {
 
     if (paymentIntent.status === 'succeeded') {
       Swal.fire({
-        title: 'Successful Bought!',
-        text: `Congrats!`,
+        title: 'Exito!',
+        text: ``,
         allowOutsideClick: false,
         icon: 'success',
   
@@ -138,7 +138,7 @@ checkoutBtn?.addEventListener('click', async (e) => {
   } catch ({ error }) {
     Swal.fire({
       title: 'Error!',
-      html: `<p>There is something wrong when your request</p>`,
+      html: `<p>Error por favor reintentar</p>`,
       icon: 'error',
       timer: 4000,
       footer: 'Reloading page on close',

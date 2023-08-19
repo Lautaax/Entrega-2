@@ -44,9 +44,9 @@ addDocumentsForm.addEventListener('submit', async (e) => {
 
         if (response.ok) {
             Swal.fire({
-                title: 'Documents successfully uploaded!',
-                html: `When all 3 docs are uploaded<br>
-                    You can change your role to premium`,
+                title: 'Subido con exito',
+                html: `Sus achivos se han subido<br>
+                    Su rol es premium`,
                 icon: 'success',
                 timer: 3000,
                 timerProgressBar: true,
@@ -58,10 +58,10 @@ addDocumentsForm.addEventListener('submit', async (e) => {
     } catch ({ error }) {
         Swal.fire({
             title: 'Error!',
-            html: `<p>There is something wrong when your request</p>`,
+            html: `<p>Error en el ingreso</p>`,
             icon: 'error',
-            timer: 5000,
-            footer: 'Reloading page on close',
+            timer: 4000,
+            footer: 'Recargar pagina por favor',
             timerProgressBar: true,
   
             willClose: () => {
@@ -94,13 +94,12 @@ addProfilePictureForm.addEventListener('submit', async (e) => {
 
         if (response.ok) {
             Swal.fire({
-                title: 'Profile picture loaded!',
-                html: 'Nice picture!',
+                title: 'Su foto de perfil se subio con exito',
                 toast: true,
-                position: 'top-right',
+                position: 'top-center',
                 icon: 'success',
                 timer: 3000,
-                footer: 'Reloading page on close',
+                footer: 'Recargar pagina',
                 timerProgressBar: true,
            
                 willClose: () => {
@@ -113,10 +112,10 @@ addProfilePictureForm.addEventListener('submit', async (e) => {
     } catch ({ error }) {
         Swal.fire({
             title: 'Error!',
-            html: `<p>There is something wrong when your request</p>`,
+            html: `<p>Error en el ingreso</p>`,
             icon: 'error',
             timer: 4000,
-            footer: 'Reloading page on close',
+            footer: 'Recargar pagina por favor',
             timerProgressBar: true,
            
             willClose: () => {
@@ -143,13 +142,12 @@ updateProfilePictureForm.addEventListener('submit', async (e) => {
 
         if (response.ok) {
             Swal.fire({
-                title: 'Profile picture updated!',
-                html: '<p>Updated profile</p>',
+                title: 'Exito',
                 toast: true,
-                position: 'top-right',
+                position: 'top-center',
                 icon: 'success',
                 timer: 3000,
-                footer: 'Reloading page on close',
+                footer: 'Recargar pagina',
                 timerProgressBar: true,
 
                 willClose: () => {
@@ -162,10 +160,10 @@ updateProfilePictureForm.addEventListener('submit', async (e) => {
     } catch ({ error }) {
         Swal.fire({
             title: 'Error!',
-            html: `<p>There is something wrong when your request</p>`,
+            html: `<p>Error en el ingreso</p>`,
             icon: 'error',
             timer: 4000,
-            footer: 'Reloading page on close',
+            footer: 'Recargar pagina por favor',
             timerProgressBar: true,
             
             willClose: () => {
@@ -186,9 +184,7 @@ changeRoleForm.addEventListener('submit', async (e) => {
 
         if (response.ok) {
             Swal.fire({
-                title: 'Cambio aceptado!',
-                html: `To complete the update, we need to log you out,<br>
-                      Por favor reloguear`,
+                title: 'Permisos cambiados con exito',
                 icon: 'success',
                 timer: 3000,
                 timerProgressBar: true,
@@ -204,10 +200,10 @@ changeRoleForm.addEventListener('submit', async (e) => {
     } catch ({ error }) {
         Swal.fire({
             title: 'Error!',
-            html: `<p>There is something wrong when your request</p>`,
+            html: `<p>Error en el ingreso</p>`,
             icon: 'error',
-            timer: 5000,
-            footer: 'Recargar',
+            timer: 4000,
+            footer: 'Recargar pagina por favor',
             timerProgressBar: true,
     
             willClose: () => {
@@ -227,11 +223,11 @@ checkDocumentationForm.addEventListener('click', async (e) => {
 
         if (response.ok) {
             Swal.fire({
-                title: 'Exito!',
-                html: `<p>Datos Aceptados</p>`,
+                title: 'Success!',
+                html: `<p>Aceptado</p>`,
                 icon: 'error',
                 timer: 4000,
-                footer: 'Recargar',
+                footer: 'Recargar pagina',
                 timerProgressBar: true,
     
                 willClose: () => {
@@ -245,10 +241,10 @@ checkDocumentationForm.addEventListener('click', async (e) => {
     } catch ({ error }) {
         Swal.fire({
             title: 'Error!',
-            html: `<p>Error</p>`,
+            html: `<p>Error en el ingreso</p>`,
             icon: 'error',
             timer: 4000,
-            footer: 'Recargar',
+            footer: 'Recargar pagina por favor',
             timerProgressBar: true,
 
             willClose: () => {

@@ -17,10 +17,12 @@ const config ={
     clientSecret:process.env.CLIENT_SECRET,
     callbackUrl:process.env.CALLBACK_URL,
     mode:process.env.DEVELOPMENT_MODE,
-    jwtSecret: process.env.JWT_SECRET,
-    loggermode:process.env.LOGGER,
-    adminPass:process.env.ADMIN_PASSWORD,
+    jwtSecret:"auto4555",
     cookieName:process.env.COOKIE_NAME,
+    loggermode:process.env.LOGGER,
+    adminEmail:process.env.ADMIN_EMAIL,
+    adminPass:process.env.ADMIN_PASSWORD,
     stripeSecret:process.env.STRIPE_SECRET
+    
 }
 export default config

@@ -19,18 +19,18 @@ form.addEventListener("submit",async(e)=>{
     }
     if(!response){
       Swal.fire({
-        title: "Password changed",
+        title: "Password cambiada",
         toast: true,
-        position: "top-right",
+        position: "top-center",
         icon: "success",
       }).then(function() {
         window.location = "/";
     });;
     }else{
       Swal.fire({
-        title: "Password not changed",
+        title: "ERROR EN EL CAMBIO DE CONTRASEÑA",
         toast: true,
-        position: "top-right",
+        position: "top-center",
         icon: "error",
       });
     }

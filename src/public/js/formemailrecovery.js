@@ -19,14 +19,14 @@ form.addEventListener("submit",async(e)=>{
       Swal.fire({
         title: "A link was send to your email",
         toast: true,
-        position: "top-right",
+        position: "top-center",
         icon: "error",
       });
     }else{
       Swal.fire({
-        title: "Password incorrect",
+        title: "Contraseña incorrecta",
         toast: true,
-        position: "top-right",
+        position: "top-center",
         icon: "error",
       });
     }

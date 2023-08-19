@@ -291,39 +291,47 @@ export default class UserService {
   }
   async deleteInactiveUsers(users, id) {
     try {
-      const twoDays = 2 * 24 * 60 * 60 * 1000
-
+       const twoDays = 2 * 24 * 60 * 60 * 1000
+    
       const currentTime = new Date()
-
-
-      let deletedUsers
+     
+     let usersTodelete
+     let deletedUsers
       let inactiveUsers = users.filter((user) => {
         const lastConnection = new Date(user.last_connection)
-
+      
         const timeDiff = currentTime - lastConnection
-
+       
         return timeDiff > twoDays
-
+     
       })
 
-      if (inactiveUsers.length === 0) {
-        deletedUsers = null
-        return deletedUsers
+    if (inactiveUsers.length === 0){
+      deletedUsers=null
+      return deletedUsers
 
-      }
+    } 
+     usersTodelete = inactiveUsers.filter((user1) => {
+        return user1.id !== id
+      })
+      
 
 
-
-      const inactiveUserIds = inactiveUsers.map((user) => user.cart)
+      const inactiveUserIds = usersTodelete.map((user) => user.cart)
 
       deletedUsers = await userRepository.deleteInactiveUsers(inactiveUserIds)
 
       inactiveUsers.forEach(async (user) => {
-        await sendEmailtousersdeletedforinactivity(user.email)
+        // const mail = {
+        //   to: user.email,
+        //   subject: 'Informatic supplies - Account Deletion Notification',
+        //   html: emailTemplates.accountDeletionEmail(user.name, user.email)
+        // }
+       await sendEmailtousersdeletedforinactivity(user.email)
       })
 
       if (!deletedUsers) throw new Error(`Error deleting user ${uid}`)
-
+    
       return deletedUsers
     } catch (error) {
       throw error
@@ -332,3 +340,4 @@ export default class UserService {
 
 
 }
+
